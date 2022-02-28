@@ -32,7 +32,7 @@ footer {
   height: 5vh;
   line-height: 5vh;
   z-index: 10;
-  background: repeat-x url("./src/img/paper.jpg") center/10%;
+  background: repeat-x url("../src/img/paper.jpg") center/10%;
   background-color: rgba(240, 232, 199, 0.8);
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
 }
@@ -62,7 +62,7 @@ footer {
 }
 
 #layer0 {
-  background-image: url("./src/img/bg_map.webp");
+  background-image: url("../src/img/bg_map.webp");
   /*perspective: 1000px;
   perspective-origin: top;*/
 }
@@ -79,10 +79,11 @@ footer {
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50px;
-  background: repeat url("./src/img/paper.jpg") center/10%;
+  background: repeat url("../src/img/paper.jpg") center/10%;
   opacity: 80%;
   background-color: rgba(240, 232, 199, 0.8);
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+  padding: 0;
 }
 
 ul {
@@ -94,7 +95,7 @@ ul {
   position: absolute;
   height: calc(var(--height) * 0.035);
   width: calc(var(--height) * 0.035);
-  background: no-repeat url("./src/ico/waypoint.png") center/cover white;
+  background: no-repeat url("../src/ico/waypoint.png") center/cover white;
   border: calc(var(--height) * 0.005) solid white;
   border-radius: calc(var(--height) * 0.05);
   transform: translate(-50%, -50%) rotate3d(1, 0, 0, 30deg);
@@ -160,67 +161,67 @@ ul {
 #home {
   top: calc(var(--height) * 0.47);
   left: calc(var(--width) * 0.77);
-  background-image: url("./src/ico/home.png");
+  background-image: url("../src/ico/home.png");
 }
 
 #school {
   top: calc(var(--height) * 0.35);
   left: calc(var(--width) * 0.31);
-  background-image: url("./src/ico/school.png");
+  background-image: url("../src/ico/school.png");
 }
 
 #work {
   top: calc(var(--height) * 0.58);
   left: calc(var(--width) * 0.2);
-  background-image: url("./src/ico/work.png");
+  background-image: url("../src/ico/work.png");
 }
 
 #food {
   top: calc(var(--height) * 0.56);
   left: calc(var(--width) * 0.39);
-  background-image: url("./src/ico/food.png");
+  background-image: url("../src/ico/food.png");
 }
 
 #gym {
   top: calc(var(--height) * 0.58);
   left: calc(var(--width) * 0.53);
-  background-image: url("./src/ico/gym.png");
+  background-image: url("../src/ico/gym.png");
 }
 
 #library {
   top: calc(var(--height) * 0.32);
   left: calc(var(--width) * 0.46);
-  background-image: url("./src/ico/library.png");
+  background-image: url("../src/ico/library.png");
 }
 
 #playground {
   top: calc(var(--height) * 0.83);
   left: calc(var(--width) * 0.62);
-  background-image: url("./src/ico/playground.png");
+  background-image: url("../src/ico/playground.png");
 }
 
 #yoga {
   top: calc(var(--height) * 0.315);
   left: calc(var(--width) * 0.54);
-  background-image: url("./src/ico/yoga.png");
+  background-image: url("../src/ico/yoga.png");
 }
 
 #bar {
   top: calc(var(--height) * 0.86);
   left: calc(var(--width) * 0.44);
-  background-image: url("./src/ico/bar.png");
+  background-image: url("../src/ico/bar.png");
 }
 
 #cafe {
   top: calc(var(--height) * 0.22);
   left: calc(var(--width) * 0.22);
-  background-image: url("./src/ico/cafe.png");
+  background-image: url("../src/ico/cafe.png");
 }
 
 #diner {
   top: calc(var(--height) * 0.86);
   left: calc(var(--width) * 0.125);
-  background-image: url("./src/ico/diner.png");
+  background-image: url("../src/ico/diner.png");
 }
 
 #shujinko {
@@ -235,7 +236,7 @@ ul {
   background-color: transparent;
   box-shadow: none;
   filter: drop-shadow(0 20px 5px rgba(0, 0, 0, 0.8));
-  background: no-repeat url("./src/img/blueberry.png") center/contain;
+  background: no-repeat url("../src/img/blueberry.png") center/contain;
   transform: translate(calc(var(--width) * 0.247), calc(var(--height) * -0.15))
     rotate3d(1, 0, 0, 20deg);
   /* animation: move 10s linear infinite alternate both; */

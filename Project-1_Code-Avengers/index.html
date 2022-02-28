@@ -10,16 +10,34 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/character.css" />
+    <link rel="stylesheet" href="./styles/location.css" />
+
+    <link rel="icon" href="./src/ico/logo.png" />
     <script src="./scripts/custom.js"></script>
     <script src="./scripts/character.js"></script>
+    <script src="./scripts/movement.js"></script>
     <title>Project 1 | CODE AVENGERS</title>
   </head>
   <body>
     <!-- <div class="spacer"></div>
     <div class="middle"> -->
-    <header id="header">header</header>
+    <header id="header">
+      <div id="logo"></div>
+      <div><h2>CODE AVENGERS</h2></div>
+      <div class="header-menu">
+        <div class="menu" id="save"><i class="fa-solid fa-floppy-disk"></i></div>
+        <div class="menu" id="restart"><i class="fa-solid fa-power-off"></i></div>
+      </div>
+    </header>
     <div id="container">
       <div class="layers" id="layer0"></div>
       <div class="layers" id="layer1">
@@ -43,16 +61,108 @@
         <button class="waypoint" id="point7" value="point7"></button>
         <button class="waypoint" id="point8" value="point8"></button>
         <button class="waypoint" id="point9" value="point9"></button>
+
         <div class="" id="shujinko"></div>
       </div>
       <div class="layers" id="layer2">layer2</div>
       <div class="layers hidden" id="layer3">layer3</div>
     </div>
-    <div class="layers" id="layer4">layer4</div>
-    <footer id="footer">footer</footer>
+    <div class="layers hidden" id="layer4"></div>
+
+    <footer id="footer">
+      <div class="menu" id="characterBtn">
+        <i class="fa-solid fa-circle-user"></i>
+      </div>
+      <div class="menu" id="calendarBtn">
+        <i class="fa-solid fa-calendar-days"></i>
+      </div>
+      <div class="menu" id="locationBtn">
+        <i class="fa-solid fa-map-location-dot"></i>
+      </div>
+
+      <div class="hidden" id="location-list">
+        <ul>
+          <li id="li-home" value="home"><h6>Index.Condo</h6></li>
+          <li id="li-school" value="school"><h6>Code Academy</h6></li>
+          <li id="li-work" value="work"><h6>Function Inc.</h6></li>
+          <li id="li-library" value="library"><h6>Object Library</h6></li>
+          <li id="li-gym" value="gym"><h6>React Gym</h6></li>
+          <li id="li-yoga" value="yoga"><h6>Await Yoga</h6></li>
+          <li id="li-playground" value="playground"><h6>Nested Court</h6></li>
+          <li id="li-food" value="food"><h6>McDOM Burger</h6></li>
+          <li id="li-diner" value="diner"><h6>Try & Catch Seafood</h6></li>
+          <li id="li-cafe" value="cafe"><h6>jQuery Cafe</h6></li>
+          <li id="li-bar" value="bar"><h6>Infinte Loop Bar</h6></li>
+        </ul>
+      </div>
+    </footer>
     <!-- </div>
     <div class="spacer"></div> -->
 
+    <div class="hidden" id="layer-character">
+      <div>
+        <div id="character-info">
+          <div class="status-bar-row">
+            <div class="status-bar-name"><h5>Name :</h5></div>
+            <div class="status-bar-disp" id="char-name"></div>
+          </div>
+          <div class="status-bar-row">
+            <div class="status-bar-name"><h5>HP :</h5></div>
+            <div class="status-bar-disp" id="hp-bar"><span></span></div>
+          </div>
+          <div class="status-bar-row">
+            <div class="status-bar-name"><h5>SP :</h5></div>
+            <div class="status-bar-disp" id="sp-bar"><span></span></div>
+          </div>
+          <div class="status-bar-name">
+            <h5>Occupation :</h5>
+          </div>
+          <div class="status-bar-disp" id="char-occupation"></div>
+        </div>
+      </div>
+      <div id="character-stat">
+        <h5>Character Stats:</h5>
+        <h6>Stamina</h6>
+        <div>
+          <div><h6>Mentality</h6></div>
+          <div class="pentagon">
+            <div class="star"></div>
+          </div>
+          <div><h6>Strength</h6></div>
+        </div>
+        <div>
+          <h6>Knowledge</h6>
+          <h6>Charisma</h6>
+        </div>
+      </div>
+
+      <div id="progress-status">
+        <div class="status-bar-row">
+          <div class="status-bar-name"><h5>Progress :</h5></div>
+          <div class="status-bar-disp" id="progress-bar"><span></span></div>
+        </div>
+      </div>
+
+      <div id="item-box">
+        <div class="status-bar-row">
+          <div class="status-bar-name"><h5>Items :</h5></div>
+          <div class="status-bar-disp" id="item-bar">
+            <span class="items" id="item1"></span>
+            <span class="items" id="item2"></span>
+            <span class="items" id="item3"></span>
+            <span class="items" id="item4"></span>
+          </div>
+        </div>
+      </div>
+      <button class="close" id="exit-character"><i class="fa-solid fa-circle-xmark"></i></button>
+    </div>
     <script src="./scripts/main.js"></script>
+    <link rel="stylesheet" href="./styles/hidden.css" />
+    <script>
+      // self executing function here
+      (() => {
+        setViewCenter();
+      })();
+    </script>
   </body>
 </html>

@@ -26,15 +26,31 @@ footer {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
-  display: block;
+  display: flex;
+  flex-flow: row nowrap;
   justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
   width: 100%;
   height: 5vh;
-  line-height: 5vh;
   z-index: 10;
   background: repeat-x url("../src/img/paper.jpg") center/10%;
   background-color: rgba(240, 232, 199, 0.8);
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+}
+
+header #logo {
+  flex-shrink: 1;
+  margin: 0.5vh 2vmin;
+  height: 4vh;
+  width: 4vh;
+  background: no-repeat url(../src/ico/logo.png) center/cover;
+}
+header h2 {
+  margin: 0.5vh auto;
+  height: 4vh;
+  line-height: 4vh;
 }
 
 #container {
@@ -73,17 +89,17 @@ footer {
 
 #layer4 {
   width: 90vw;
-  max-width: 600px;
+  max-width: 720px;
   height: 86vh;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 50px;
+  border-radius: 5vmin;
   background: repeat url("../src/img/paper.jpg") center/10%;
-  opacity: 80%;
+  /* opacity: 80%; */
   background-color: rgba(240, 232, 199, 0.8);
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
-  padding: 0;
+  padding: 2vmin;
 }
 
 ul {
@@ -225,18 +241,21 @@ ul {
 }
 
 #shujinko {
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(var(--height) * 0.08);
-  height: calc(var(--height) * 0.12);
   border: none;
   border-radius: 0;
   background-color: transparent;
   box-shadow: none;
   filter: drop-shadow(0 20px 5px rgba(0, 0, 0, 0.8));
   background: no-repeat url("../src/img/blueberry.png") center/contain;
+}
+
+#layer1 #shujinko {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--height) * 0.08);
+  height: calc(var(--height) * 0.12);
   transform: translate(calc(var(--width) * 0.247), calc(var(--height) * -0.15))
     rotate3d(1, 0, 0, 20deg);
   /* animation: move 10s linear infinite alternate both; */
@@ -259,7 +278,36 @@ ul {
       rotate3d(1, 0, 0, 20deg);
   }
 } */
+.header-menu {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-content: flex-end;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+}
+.menu {
+  width: 4vh;
+  height: 4vh;
+  line-height: 4vh;
+  font-size: 3.5vh;
+  margin: 0.5vh 5vmin;
+  padding: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
 
-.hidden {
-  display: none;
+.header-menu .menu {
+  margin: 0.5vh 2vmin;
+}
+
+.menu:hover i,
+.menu:focus i {
+  pointer-events: none;
+  margin-top: -1vh;
+  filter: drop-shadow(0 0.5vh 0 rgba(0, 0, 0, 0.5));
 }

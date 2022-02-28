@@ -1,0 +1,84 @@
+
+      <div id="character-stat">
+        <div class="status-bar-row">
+          <div class="status-bar-name"><h5>Stamina :</h5></div>
+          <div class="status-bar-disp" id="stamina-bar"><span></span></div>
+        </div>
+        <div class="status-bar-row">
+          <div class="status-bar-name"><h5>Mentality :</h5></div>
+          <div class="status-bar-disp" id="mentality-bar"><span></span></div>
+        </div>
+        <div class="status-bar-row">
+          <div class="status-bar-name"><h5>Strength :</h5></div>
+          <div class="status-bar-disp" id="strength-bar"><span></span></div>
+        </div>
+        <div class="status-bar-row">
+          <div class="status-bar-name"><h5>Knowledge :</h5></div>
+          <div class="status-bar-disp" id="knowledge-bar"><span></span></div>
+        </div>
+        <div class="status-bar-row">
+          <div class="status-bar-name"><h5>Charisma :</h5></div>
+          <div class="status-bar-disp" id="charisma-bar"><span></span></div>
+        </div>
+      </div>
+
+
+#character-stat .status-bar-row {
+  width: 80%;
+  max-width: 80%;
+}
+
+
+#stamina-bar span {
+  background-color: #e63;
+  background-image: linear-gradient(#e63, #fa6);
+}
+
+#mentality-bar span {
+  background-color: #3ee;
+  background-image: linear-gradient(#3ee, #6ff);
+}
+
+#strength-bar span {
+  background-color: #e33;
+  background-image: linear-gradient(#e33, #f66);
+}
+
+#knowledge-bar span {
+  background-color: #ee3;
+  background-image: linear-gradient(#ee3, #ff6);
+}
+
+#charisma-bar span {
+  background-color: #e3e;
+  background-image: linear-gradient(#e3e, #f6f);
+}
+
+
+
+
+/*  let arr = ["stamina", "mentality", "strength", "knowledge", "charisma"];
+    for (let stat of arr)
+      document.querySelector(`#${stat}-bar span`).style.width = `${this[stat]}%`;
+
+    let pentagon = { stamina: {}, mentality: {}, strength: {}, knowledge: {}, charisma: {} };
+
+    pentagon.stamina.x = "50%";
+    pentagon.stamina.y = `${50 - (this.stamina * 0.48 + 2)}%`;
+
+    pentagon.mentality.x = `${50 - Math.cos((18 * Math.PI) / 180) * (this.mentality * 0.48 + 2)}%`;
+    pentagon.mentality.y = `${50 - Math.sin((18 * Math.PI) / 180) * (this.mentality * 0.48 + 2)}%`;
+
+    pentagon.strength.x = `${50 + Math.cos((18 * Math.PI) / 180) * (this.strength * 0.48 + 2)}%`;
+    pentagon.strength.y = `${50 - Math.sin((18 * Math.PI) / 180) * (this.strength * 0.48 + 2)}%`;
+
+    pentagon.knowledge.x = `${50 - Math.cos((54 * Math.PI) / 180) * (this.knowledge * 0.48 + 2)}%`;
+    pentagon.knowledge.y = `${50 + Math.sin((54 * Math.PI) / 180) * (this.knowledge * 0.48 + 2)}%`;
+
+    pentagon.charisma.x = `${50 + Math.cos((54 * Math.PI) / 180) * (this.charisma * 0.48 + 2)}%`;
+    pentagon.charisma.y = `${50 + Math.sin((54 * Math.PI) / 180) * (this.charisma * 0.48 + 2)}%`;
+
+    document.querySelector(
+      "div.pentagon"
+    ).style.clipPath = `polygon(${pentagon.stamina.x} ${pentagon.stamina.y}, ${pentagon.strength.x} ${pentagon.strength.y}, ${pentagon.charisma.x} ${pentagon.charisma.y}, ${pentagon.knowledge.x} ${pentagon.knowledge.y}, ${pentagon.mentality.x} ${pentagon.mentality.y})`;
+*/

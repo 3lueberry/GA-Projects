@@ -5,11 +5,11 @@ const shujinko = {
   hp: 100,
   sp: 100,
   occupation: {},
-  stamina: 0,
-  mentality: 0,
-  strength: 0,
-  knowledge: 0,
-  chrisma: 0,
+  stamina: 10,
+  mentality: 10,
+  strength: 10,
+  knowledge: 10,
+  charisma: 10,
   currPos: { location: "home" },
   items: [],
   progress: {
@@ -56,6 +56,10 @@ const shujinko = {
     }
     this.hp += change.hp;
     this.sp += change.sp;
+
+    document.querySelector(`#hp-bar span`).style.width = `${this.hp}%`;
+    document.querySelector(`#sp-bar span`).style.width = `${this.sp}%`;
+    this.updateProgress();
     return [this.hp, this.sp];
   },
   updateStats: function (...args) {
@@ -64,7 +68,19 @@ const shujinko = {
         this[stat.split(":")[0]] += parseInt(stat.split(":")[1]);
       else this[stat.split(":")[0]] = 0;
     }
-    return [this.stamina, this.mentality, this.strength, this.knowledge, this.chrisma];
+    document.querySelector("#character-stat .star").style.clipPath = this.drawStar(
+      this.stamina,
+      this.strength,
+      this.charisma,
+      this.knowledge,
+      this.mentality
+    );
+    this.updateProgress();
+    return [this.stamina, this.mentality, this.strength, this.knowledge, this.charisma];
+  },
+  updateProgress: function () {
+    document.querySelector(`#progress-bar span`).style.width = `${this.progress.percent}%`;
+    return this.progress;
   },
   today: function () {
     let today = {};
@@ -96,6 +112,67 @@ const shujinko = {
     this.currPos.y = pos.y;
     return this.currPos;
   },
+
+  drawStar: function (a, b, c, d, e, star = true) {
+    const x = [];
+    const y = 0.35,
+      z = 50 - y * 100;
+    let temp = 0;
+
+    x.push(50);
+    x.push(50 - (a * y + z));
+
+    if (star) {
+      temp = a < b ? a / 2 : b / 2;
+      x.push(50 + Math.sin((36 * Math.PI) / 180) * (temp * y + z / 2));
+      x.push(50 - Math.cos((36 * Math.PI) / 180) * (temp * y + z / 2));
+    }
+
+    x.push(50 + Math.cos((18 * Math.PI) / 180) * (b * y + z));
+    x.push(50 - Math.sin((18 * Math.PI) / 180) * (b * y + z));
+
+    if (star) {
+      temp = c < b ? c / 2 : b / 2;
+      x.push(50 + Math.cos((18 * Math.PI) / 180) * (temp * y + z / 2));
+      x.push(50 + Math.sin((18 * Math.PI) / 180) * (temp * y + z / 2));
+    }
+
+    x.push(50 + Math.cos((54 * Math.PI) / 180) * (c * y + z));
+    x.push(50 + Math.sin((54 * Math.PI) / 180) * (c * y + z));
+
+    if (star) {
+      temp = c < d ? c / 2 : d / 2;
+      x.push(50);
+      x.push(50 + (temp * y + z / 2));
+    }
+
+    x.push(50 - Math.cos((54 * Math.PI) / 180) * (d * y + z));
+    x.push(50 + Math.sin((54 * Math.PI) / 180) * (d * y + z));
+
+    if (star) {
+      temp = d < e ? d / 2 : e / 2;
+      x.push(50 - Math.cos((18 * Math.PI) / 180) * (temp * y + z / 2));
+      x.push(50 + Math.sin((18 * Math.PI) / 180) * (temp * y + z / 2));
+    }
+
+    x.push(50 - Math.cos((18 * Math.PI) / 180) * (e * y + z));
+    x.push(50 - Math.sin((18 * Math.PI) / 180) * (e * y + z));
+
+    if (star) {
+      temp = a < e ? a / 2 : e / 2;
+      x.push(50 - Math.sin((36 * Math.PI) / 180) * (temp * y + z / 2));
+      x.push(50 - Math.cos((36 * Math.PI) / 180) * (temp * y + z / 2));
+    }
+
+    temp = "polygon(";
+    for (let i = 0; i < x.length; i++) {
+      temp += `${x[i]}%`;
+      if (i === x.length - 1) temp += `)`;
+      else if (i % 2) temp += `, `;
+      else temp += ` `;
+    }
+    return temp;
+  },
 };
 
 // console.log(shujinko.charName());
@@ -113,10 +190,10 @@ const shujinko = {
 // [hp, sp] = shujinko.updatePoints("hp:10");
 // console.log(hp, sp);
 
-// let stats = shujinko.updateStats("stamina:10", "mentality:5", "chrisma:-1");
+// let stats = shujinko.updateStats("stamina:10", "mentality:5", "charisma:-1");
 // console.log(stats);
 
-// stats = shujinko.updateStats("stamina:-15", "knowledge:5", "chrisma:5");
+// stats = shujinko.updateStats("stamina:-15", "knowledge:5", "charisma:5");
 // console.log(stats);
 
 // console.log(shujinko.updatePoints());

@@ -1,0 +1,89 @@
+#location-list {
+  position: absolute;
+  bottom: 6vh;
+  left: 50vw;
+  border-radius: 2vmin;
+  background: repeat url("../src/img/paper.jpg") center/10%;
+  width: 250px;
+  text-align: left;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+}
+
+#location-list ul {
+  line-height: 32px;
+  padding: 1vmin auto;
+  margin: 0;
+}
+
+#location-list li {
+  cursor: pointer;
+  display: block !important;
+  height: 40px;
+  padding: 1vmin auto;
+  margin: 0;
+  border-bottom: 1px solid #666;
+  border-left: 20px solid transparent;
+  box-sizing: content-box;
+}
+
+#location-list li:last-child {
+  border: 0;
+  border-left: 20px solid transparent;
+}
+
+#location-list h6 {
+  line-height: 40px;
+  padding: 0;
+  margin-left: 52px;
+}
+
+#li-home {
+  background: no-repeat url("../src/ico/home.png") left/15% !important;
+}
+#li-school {
+  background: no-repeat url("../src/ico/school.png") left/15% !important;
+}
+#li-work {
+  background: no-repeat url("../src/ico/work.png") left/15% !important;
+}
+#li-library {
+  background: no-repeat url("../src/ico/library.png") left/15% !important;
+}
+#li-gym {
+  background: no-repeat url("../src/ico/gym.png") left/15% !important;
+}
+#li-yoga {
+  background: no-repeat url("../src/ico/yoga.png") left/15% !important;
+}
+#li-playground {
+  background: no-repeat url("../src/ico/playground.png") left/15% !important;
+}
+#li-food {
+  background: no-repeat url("../src/ico/food.png") left/15% !important;
+}
+#li-diner {
+  background: no-repeat url("../src/ico/diner.png") left/15% !important;
+}
+#li-cafe {
+  background: no-repeat url("../src/ico/cafe.png") left/15% !important;
+}
+#li-bar {
+  background: no-repeat url("../src/ico/bar.png") left/15% !important;
+}
+
+@keyframes animatedBackground {
+  0%,
+  100% {
+    background-position: 0% 3px;
+  }
+  25% {
+    background-position: -5% 3px;
+  }
+  75% {
+    background-position: 5% 3px;
+  }
+}
+#location-list li:hover {
+  animation: animatedBackground 0.5s ease-in 1 normal;
+  color: red;
+}

@@ -10,6 +10,7 @@ const shujinko = {
   strength: 10,
   knowledge: 10,
   charisma: 10,
+  tag: null,
   currPos: { location: "home" },
   items: [],
   progress: {
@@ -39,8 +40,8 @@ const shujinko = {
       },
     },
   },
-  charName: function (name = "") {
-    if (name !== "") this.name = name;
+  charName: function (newName = "") {
+    if (newName !== "") this.name = newName;
     return this.name;
   },
   updatePoints: function (...args) {
@@ -106,10 +107,13 @@ const shujinko = {
     return this.today();
   },
   updateCurrPos: function (location) {
-    if (location != undefined) this.currPos.location = location;
-    let pos = document.querySelector(`#shujinko`).getBoundingClientRect();
-    this.currPos.x = pos.x;
-    this.currPos.y = pos.y;
+    if (location != undefined) {
+      this.currPos.location = location;
+      let pos = document.querySelector(`#${location}`).getBoundingClientRect();
+      this.currPos.x = pos.x + pos.width / 2;
+      this.currPos.y = pos.y + pos.height / 2;
+      log(pos, this.currPos);
+    }
     return this.currPos;
   },
 

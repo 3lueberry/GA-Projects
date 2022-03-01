@@ -141,7 +141,7 @@ ul {
 
 #point3 {
   top: calc(var(--height) * 0.92);
-  left: calc(var(--width) * 0.615);
+  left: calc(var(--width) * 0.6);
 }
 
 #point4 {
@@ -211,8 +211,8 @@ ul {
 }
 
 #playground {
-  top: calc(var(--height) * 0.83);
-  left: calc(var(--width) * 0.62);
+  top: calc(var(--height) * 0.82);
+  left: calc(var(--width) * 0.63);
   background-image: url("../src/ico/playground.png");
 }
 

@@ -219,3 +219,42 @@
   background-color: white;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
+
+@keyframes disapperingAct {
+  0% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate3d(0, 0, 0, 0);
+  }
+  20% {
+    transform: scaleX(0.3);
+    background-image: url("../src/img/teleport.png");
+    filter: none;
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.5;
+    transform: scaleX(0.8);
+  }
+  40% {
+    opacity: 0.8;
+    transform: scaleX(0.3);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scaleX(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  100% {
+    transform: translateY(-100vh);
+  }
+}
+
+.ninpo {
+  animation: disapperingAct 1s ease-in-out 0s 1 normal forwards;
+}
+
+.kai {
+  animation: disapperingAct 1s ease-in-out 0s 1 reverse backwards;
+}

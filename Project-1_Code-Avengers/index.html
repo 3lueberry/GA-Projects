@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project 1 | CODE AVENGERS</title>
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -20,16 +22,22 @@
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/character.css" />
     <link rel="stylesheet" href="./styles/location.css" />
+    <link rel="stylesheet" href="./styles/games.css" />
 
     <link rel="icon" href="./src/ico/logo.png" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <script src="./scripts/custom.js"></script>
     <script src="./scripts/character.js"></script>
     <script src="./scripts/movement.js"></script>
-    <title>Project 1 | CODE AVENGERS</title>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
   </head>
   <body>
-    <!-- <div class="spacer"></div>
-    <div class="middle"> -->
+    <!-- Start of Header Menu and Title -->
     <header id="header">
       <div id="logo"></div>
       <div><h2>CODE AVENGERS</h2></div>
@@ -38,8 +46,14 @@
         <div class="menu" id="restart"><i class="fa-solid fa-power-off"></i></div>
       </div>
     </header>
+    <!-- End of Header Menu and Title -->
+
+    <!-- Start of Container DIV -->
     <div id="container">
-      <div class="layers" id="layer0"></div>
+      <!-- Layer 0 for BG Map -->
+      <div class="layers AM" id="layer0"></div>
+
+      <!-- Start of Layer 1 for Location Buttons and Character -->
       <div class="layers" id="layer1">
         <button class="waypoint location" id="home" value="home"></button>
         <button class="waypoint location" id="school" value="school"></button>
@@ -61,14 +75,26 @@
         <button class="waypoint" id="point7" value="point7"></button>
         <button class="waypoint" id="point8" value="point8"></button>
         <button class="waypoint" id="point9" value="point9"></button>
-
-        <div class="" id="shujinko"></div>
+        <div class="" id="shujinko">
+          <div class="hidden" id="popup-button">
+            <h6>Try & Catch Seafood</h6>
+            <button type="button" class="btn btn-danger">Enter</button>
+          </div>
+        </div>
       </div>
-      <div class="layers" id="layer2">layer2</div>
-      <div class="layers hidden" id="layer3">layer3</div>
+
+      <!-- End of Layer 1  -->
+
+      <!-- Layer 2 for Overlay Map -->
+      <div class="layers" id="layer2"></div>
     </div>
+    <!-- End of Container DIV -->
+
+    <!-- Floating Layer 3 & 4 for Screens -->
+    <div class="layers hidden" id="layer3"></div>
     <div class="layers hidden" id="layer4"></div>
 
+    <!-- Start of Footer Menu -->
     <footer id="footer">
       <div class="menu" id="characterBtn" value="characterBtn">
         <i class="fa-solid fa-circle-user"></i>
@@ -80,6 +106,7 @@
         <i class="fa-solid fa-map-location-dot"></i>
       </div>
 
+      <!-- Start of Location Menu -->
       <div class="hidden" id="location-list">
         <ul>
           <li id="li-home" value="home"><h6>Index.nacle</h6></li>
@@ -95,10 +122,11 @@
           <li id="li-bar" value="bar"><h6>Infinte Loop Bar</h6></li>
         </ul>
       </div>
+      <!-- End of Location Menu -->
     </footer>
-    <!-- </div>
-    <div class="spacer"></div> -->
+    <!-- End of Footer Menu -->
 
+    <!-- Start of Character Screen -->
     <div class="hidden" id="layer-character">
       <div>
         <div id="character-info">
@@ -156,6 +184,9 @@
       </div>
       <button class="close" id="exit-character"><i class="fa-solid fa-circle-xmark"></i></button>
     </div>
+    <!-- End of Character Screen -->
+
+    <!-- CSS & Scripts need load after Elements ready -->
     <script src="./scripts/main.js"></script>
     <link rel="stylesheet" href="./styles/hidden.css" />
     <script>

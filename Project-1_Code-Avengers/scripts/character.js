@@ -20,25 +20,44 @@ const shujinko = {
     time: "AM",
     gameOver: 95,
     weeks: ["TUE", "WED", "THU", "FRI", "SAT", "SUN", "MON"],
-    months: { FEB: 28, MAR: 31, APR: 30, MAY: 31 },
+    months: { "02": 28, "03": 31, "04": 30, "05": 31 },
     holidays: {
-      FEB: {
-        1: "Lunar New Year's Eve",
-        2: "Lunar New Year's Day",
+      "02": {
+        "01": "Lunar New Year's Eve",
+        "02": "Lunar New Year's Day",
         11: "National Foundation Day",
         21: "No Class",
         22: "No Class",
         23: "The Emperor's Birthday",
       },
-      MAR: { 21: "Vernal Equinox Day" },
-      APR: { 15: "Good Friday", 29: "Showa Day" },
-      MAY: {
-        2: "Labour Day",
-        3: "Constitution Memorial Day",
-        4: "Greenery Day",
-        5: "Children's Day",
+      "03": { 21: "Vernal Equinox Day" },
+      "04": { 15: "Good Friday", 29: "Showa Day" },
+      "05": {
+        "02": "Labour Day",
+        "03": "Constitution Memorial Day",
+        "04": "Greenery Day",
+        "05": "Children's Day",
       },
     },
+  },
+  speech: {
+    anger: 0,
+    text: [
+      "Hi there!",
+      "I'm Blueberry. You're?",
+      "Stop poking me.",
+      "I'm gonna get mad!",
+      "HEY!!! STOP IT!",
+      "Sigh...",
+    ],
+    url: [
+      "./src/img/blueberry.png",
+      "./src/img/berry_wink.png",
+      "./src/img/berry_stare.png",
+      "./src/img/berry_mad.png",
+      "./src/img/berry_angry.png",
+      "./src/img/berry_giveup.png",
+    ],
   },
   charName: function (newName = "") {
     if (newName !== "") this.name = newName;
@@ -115,6 +134,31 @@ const shujinko = {
       log(pos, this.currPos);
     }
     return this.currPos;
+  },
+  berryTalk: () => {
+    if (shujinko.speech.anger === 0) {
+      shujinko.timer = setTimeout(() => {
+        shujinko.tag.innerHTML = "";
+        shujinko.tag.style.backgroundImage = `url(${shujinko.speech.url[0]})`;
+        shujinko.speech.anger = 0;
+      }, 3000);
+    } else {
+      clearTimeout(shujinko.timer);
+      shujinko.tag.innerHTML = "";
+      shujinko.timer = setTimeout(() => {
+        shujinko.tag.innerHTML = "";
+        shujinko.tag.style.backgroundImage = `url(${shujinko.speech.url[0]})`;
+        shujinko.speech.anger = 0;
+      }, 3000 * shujinko.speech.anger);
+    }
+    if (shujinko.speech.anger < 6) {
+      shujinko.tag.append(
+        blueQuery.create(`h6>>id=berry-speech$$${shujinko.speech.text[shujinko.speech.anger]}`)
+      );
+      shujinko.tag.style.backgroundImage = `url(${shujinko.speech.url[shujinko.speech.anger]})`;
+      shujinko.speech.anger++;
+    }
+    log(shujinko.timer);
   },
 
   drawStar: function (a, b, c, d, e, star = true) {
@@ -207,3 +251,4 @@ const shujinko = {
 // console.log(shujinko.advance());
 // console.log(shujinko.advance(true));
 // console.log(shujinko.advance(true));
+// console.log(shujinko.speech.anger);

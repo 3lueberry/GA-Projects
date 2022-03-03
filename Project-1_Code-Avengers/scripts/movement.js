@@ -61,12 +61,16 @@ const moveChar = (path) => {
     }, time * 1000 + 20);
   else
     setTimeout(() => {
+      popup(dest);
       document.querySelector("#layer1").addEventListener("click", movingNow);
     }, time * 1000 + 20);
 };
 
 const pathFinder = (dest) => {
-  if (dest === shujinko.currPos.location || calcTravelTime(dest) <= 0.8) return;
+  if (dest === shujinko.currPos.location || calcTravelTime(dest) <= 0.8) {
+    popup(dest);
+    return;
+  }
   if (shujinko.currPos.x == undefined || shujinko.currPos.y == undefined) {
     shujinko.currPos.x = shujinko.tag.getBoundingClientRect().x;
     shujinko.currPos.y = shujinko.tag.getBoundingClientRect().y;

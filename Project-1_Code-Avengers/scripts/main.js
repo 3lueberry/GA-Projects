@@ -1,5 +1,8 @@
 "use strict";
 
+/////////////////////////////////////////////////
+//// LOADING Screen Size and running necessities
+/////////////////////////////////////////////////
 let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 let vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 let mapH = vh;
@@ -16,19 +19,16 @@ const setViewCenter = () => {
   shujinko.tag.style.transform = `translate(${x}px, ${y}px) rotate3d(1, 0, 0, 20deg)`;
 };
 
-// const playingAround = () => {
-//   shujinko.tag.classList.toggle("ninpo");
-//   shujinko.tag.style.transform = `translate(0, -100vh);`;
+//////////////////
+//// Footer Menus
+//////////////////
 
-//   log(shujinko.tag.getBoundingClientRect());
-//   setTimeout(() => {
-//     shujinko.tag.classList.toggle("kai");
-//   }, 1000);
-// };
-
+/* ---- Character Button ---- */
 const characterBtn = () => {
   if (shujinko.tag.parentNode.parentNode.id === "layer-character") {
     log("inside if");
+
+    shujinko.tag.removeEventListener("click", shujinko.berryTalk);
     shujinko.tag.classList.toggle("ninpo");
     setTimeout(() => {
       let pos = shujinko.updateCurrPos(shujinko.currPos.location);
@@ -49,13 +49,58 @@ const characterBtn = () => {
     shujinko.tag.style.transform = "";
     shujinko.updateStats();
     shujinko.updatePoints();
+    shujinko.tag.addEventListener("click", shujinko.berryTalk);
   }
 };
 
+document.querySelector("#exit-character").addEventListener("click", characterBtn);
+
+/* ---- Calender Button ---- */
 const calendarBtn = () => {
   log("Calendar");
+  // document.querySelector("#game-script").remove();
+  // document.querySelector("#layer3").innerHTML = "";
+
+  if (document.querySelector("#layer3").classList.contains("hidden")) {
+    document.querySelector("#layer3").classList.toggle("hidden");
+    blueQuery.append("#layer3", blueQuery.create(`div>>id=calendar$$`));
+
+    let calEvents = [];
+
+    log(Object.keys(shujinko.progress.holidays));
+    Object.keys(shujinko.progress.holidays).forEach((key) => {
+      log(Object.keys(shujinko.progress.holidays[key]));
+      for (let date of Object.keys(shujinko.progress.holidays[key])) {
+        calEvents.push({
+          title: shujinko.progress.holidays[key][date],
+          start: new Date(2022, "0" + (parseInt(key) - 1), date),
+          allDay: true,
+        });
+      }
+    });
+    log(calEvents);
+    var calendarEl = document.getElementById("calendar");
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      initialDate: new Date(
+        2022,
+        "0" + (parseInt(shujinko.today().month) - 1),
+        shujinko.today().date
+      ),
+      validRange: {
+        start: "2022-02-01",
+        end: "2022-05-06",
+      },
+      events: calEvents,
+    });
+    calendar.render();
+  } else {
+    document.querySelector("#layer3").innerHTML = "";
+    document.querySelector("#layer3").classList.toggle("hidden");
+  }
 };
 
+/* ---- Map Button ---- */
 const locationBtn = () => {
   document.querySelector("#location-list").classList.toggle("hidden");
   if (document.querySelector("#location-list").classList.contains("hidden")) {
@@ -65,8 +110,11 @@ const locationBtn = () => {
   }
 };
 
+/* ---- Footer Event Handler ---- */
 const footerEvent = (e) => {
   log(e.target, e.currentTarget);
+
+  shujinko.tag.children[0].classList.add("hidden");
   if (document.querySelector("footer") === e.target) return;
   if (e.target.classList.contains("menu")) eval(e.target.id)();
   else {
@@ -75,13 +123,34 @@ const footerEvent = (e) => {
   }
 };
 
+/* ---- Footer Event Listener ---- */
 document.querySelector("footer").addEventListener("click", footerEvent);
 
+/////////////////////////
+//// Character Movement
+/////////////////////////
 const movingNow = (e) => {
+  shujinko.tag.children[0].classList.add("hidden");
   if (e.target.classList.contains("location")) pathFinder(e.target.id);
+  else if (e.target.id.indexOf("-game") !== -1) {
+    log(e.target.id.indexOf("-game"));
+    blueQuery.append(
+      "head",
+      blueQuery.create(`script>>src=./scripts/yoga_game.js$$id=game-script$$`)
+    );
+    document.querySelector("#layer3").classList.toggle("hidden");
+  }
 };
 
 document.querySelector("#layer1").addEventListener("click", movingNow);
+
+const popup = (location) => {
+  shujinko.tag.children[0].children[0].innerText = document.querySelector(
+    `#li-${location} h6`
+  ).innerText;
+  shujinko.tag.children[0].children[1].id = `${location}-game`;
+  shujinko.tag.children[0].classList.remove("hidden");
+};
 
 // {
 //   log(e.target);
@@ -106,7 +175,6 @@ document.querySelector("#layer1").addEventListener("click", movingNow);
 // }
 // });
 
-document.querySelector("#exit-character").addEventListener("click", characterBtn);
 // let x = 0,
 //   y = 0,
 //   width = 0;
@@ -141,3 +209,13 @@ document.querySelector("#exit-character").addEventListener("click", characterBtn
 // document.querySelector("#layer4").classList.remove("character");
 // document.querySelector("#layer4").classList.add("hidden");
 // });
+
+// const playingAround = () => {
+//   shujinko.tag.classList.toggle("ninpo");
+//   shujinko.tag.style.transform = `translate(0, -100vh);`;
+
+//   log(shujinko.tag.getBoundingClientRect());
+//   setTimeout(() => {
+//     shujinko.tag.classList.toggle("kai");
+//   }, 1000);
+// };

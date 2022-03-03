@@ -223,6 +223,8 @@
 @keyframes disapperingAct {
   0% {
     transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate3d(0, 0, 0, 0);
+    filter: none;
+    box-shadow: none;
   }
   20% {
     transform: scaleX(0.3);
@@ -244,7 +246,7 @@
   }
   60% {
     opacity: 1;
-    transform: scaleX(0);
+    transform: scaleX(0.05);
   }
   100% {
     transform: translateY(-100vh);

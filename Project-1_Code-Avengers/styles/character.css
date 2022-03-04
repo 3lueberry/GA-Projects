@@ -49,7 +49,7 @@
 .status-bar-name h5 {
   text-align: right;
   line-height: 50px;
-  min-width: 120px;
+  min-width: 100px;
   margin: 0;
   padding: 0;
 }
@@ -63,30 +63,43 @@
   flex-grow: 1;
   overflow: hidden;
   margin-top: 7px;
+  /* line-height: 16px !important;
+  text-align: right; */
 }
 
 .status-bar-disp span {
   text-align: left;
   display: block;
   height: 20px;
-  line-height: 20px;
+  line-height: 15px;
+  text-align: right !important;
+  font-weight: bold;
+  color: red;
   margin: 0;
   padding: 0;
 }
 
-#hp-bar span {
+#hp-bar span,
+#game-hp-bar span {
   background-color: #3e3;
   background-image: linear-gradient(#3e3, #6f6);
 }
 
-#sp-bar span {
+#sp-bar span,
+#game-sp-bar span {
   background-color: #33e;
   background-image: linear-gradient(#33e, #66f);
 }
 
-#char-name,
-#char-occupation {
+.status-bar-disp.status-bar-text {
   border: 0;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  line-height: 40px;
+  height: 40px;
+  overflow: visible;
 }
 
 #character-stat .pentagon {
@@ -212,7 +225,7 @@
   border-radius: 16px;
   line-height: 32px;
   font-size: 32px;
-  position: absolute;
+  position: fixed;
   top: 1.5vmin;
   right: 1.5vmin;
   color: red;

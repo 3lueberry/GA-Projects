@@ -8,6 +8,25 @@
   height: 96%;
 }
 
+.instructions .status-bar-row {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+  /* text-align: right !important; */
+}
+
+.instructions .status-bar-name,
+.instructions .status-bar-name h5 {
+  min-width: 40px !important;
+  line-height: 40px !important;
+}
+
+.instructions h3 {
+  margin: 0;
+  padding: 0;
+}
+
 .instructions,
 .controller {
   /* position: -webkit-sticky;
@@ -32,6 +51,8 @@
   overflow: hidden;
 }
 
+/* Block Hitting Game */
+
 #yoga-game .block-col {
   width: 200px;
   display: flex;
@@ -43,6 +64,7 @@
   height: 90%;
   margin: 5vh auto;
   /* background-color: black; */
+  /* border-bottom: 20px solid brown; */
 }
 
 #yoga-game .left-col,
@@ -90,6 +112,13 @@
   padding: 0;
 }
 
+#yoga-emoji {
+  line-height: 100%;
+  font-size: 500%;
+  margin: 0;
+  padding: 0;
+}
+
 .moving {
   animation: aiming linear 0s infinite alternate both;
   animation-duration: 0.5s;
@@ -121,4 +150,172 @@
     transform: translateX(25%) rotateZ(-50deg);
     /* height: 100%; */
   }
+}
+
+/* Basket Ball Game */
+
+#playground-game .instructions {
+  height: 10vh;
+}
+
+#playground-game .controller {
+  height: 6vh;
+  padding-top: 2vh;
+}
+
+#playground-game .screen {
+  max-width: 360px !important;
+  max-height: 480px !important;
+  background: no-repeat url(../src/img/basketball.png) top/cover;
+}
+
+#playground-game .block-col {
+  width: 50%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  justify-items: stretch;
+  align-content: center;
+  align-items: center;
+  height: 80%;
+  margin: -3vh auto;
+  perspective: 1000px;
+  perspective-origin: center bottom;
+  /* background-color: black; */
+  /* border-bottom: 20px solid brown; */
+}
+
+#playground-game .left-col {
+  width: 150px;
+  flex-shrink: 1;
+  text-align: left;
+  padding: 0 5px;
+  height: 90%;
+  margin: 1vh auto 5vh auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  justify-items: flex-end;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+#playground-game .left-col > div {
+  display: block;
+  position: relative;
+  height: 90%;
+  width: 50px;
+  margin-left: 20px;
+  border: 2px solid grey;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+#playground-game .right-col {
+  width: 150px;
+  flex-shrink: 1;
+  text-align: left;
+  padding: 0 5px;
+  height: 86%;
+  margin: 2vh auto 5vh auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  justify-items: flex-start;
+  align-content: center;
+  align-items: center;
+  font-family: "Press Start 2P", cursive;
+}
+
+#playground-game .right-col div {
+  width: 100px;
+  height: 50px;
+  line-height: 47px;
+  text-align: right;
+  background-color: black;
+  color: red;
+  border: 2px solid slategray;
+  margin: 1vh auto;
+  font-size: x-large;
+  padding-right: 10px;
+}
+
+#playground-game .right-col h5 {
+  color: white;
+  font-weight: 700;
+  filter: drop-shadow(2px -2px 1px black);
+  /* box-shadow: 0 0 0 2px black; */
+  margin: 0;
+  padding: 0;
+}
+
+#playground-game .power {
+  display: block;
+  width: 80px;
+  /* height: 50%; */
+  background: linear-gradient(red 15%, orange 35%, yellow 60%, green);
+  bottom: 0 !important;
+  position: absolute;
+}
+
+#playground-emoji {
+  line-height: 100%;
+  font-size: 500%;
+  margin: 0;
+  padding: 0;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  /* -webkit-animation: shootball 2s linear 0s infinite normal forwards;
+  animation: shootball 2s linear 0s infinite normal forwards; */
+  /* animation: shootBallWeak 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s 1 normal forwards; */
+}
+
+#playground-emoji.weak {
+  animation: shootBallWeak 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s 1 normal forwards;
+}
+#playground-emoji.strong {
+  animation: shootBallStrong 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s 1 normal forwards;
+}
+#playground-emoji.win {
+  animation: shootBallWin 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s 1 normal forwards;
+}
+
+@keyframes shootBallWeak {
+  0% {
+    transform: translateY(0) translateZ(0);
+  }
+  70% {
+    transform: translateY(-430px) translateZ(-550px);
+  }
+  100% {
+    transform: translateY(-320px) translateZ(-800px);
+  }
+}
+
+@keyframes shootBallStrong {
+  0% {
+    transform: translateY(0) translateZ(0);
+  }
+  70% {
+    transform: translateY(-1000px) translateZ(-800px);
+  }
+  100% {
+    transform: translateY(-800px) translateZ(-1200px);
+  }
+}
+
+@keyframes shootBallWin {
+  0% {
+    transform: translateY(0) translateZ(0);
+  }
+  70% {
+    transform: translateY(-700px) translateZ(-650px);
+  }
+  100% {
+    transform: translateY(-580px) translateZ(-1000px);
+  }
+}
+
+#playground-game .moving {
+  animation: aiming 0.3s linear 0s infinite alternate both;
 }

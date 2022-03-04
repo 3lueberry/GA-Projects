@@ -19,6 +19,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/character.css" />
     <link rel="stylesheet" href="./styles/location.css" />
@@ -77,8 +83,10 @@
         <button class="waypoint" id="point9" value="point9"></button>
         <div class="" id="shujinko">
           <div class="hidden" id="popup-button">
-            <h6>Try & Catch Seafood</h6>
-            <button type="button" class="btn btn-danger">Enter</button>
+            <h6>Home Sweet Home</h6>
+            <button type="button" class="btn btn-danger">
+              enter( <i class="fa-solid fa-dungeon"></i> );
+            </button>
           </div>
         </div>
       </div>
@@ -90,9 +98,43 @@
     </div>
     <!-- End of Container DIV -->
 
-    <!-- Floating Layer 3 & 4 for Screens -->
+    <!-- Floating Layer 3 & 4 & 5 for Screens -->
     <div class="layers hidden" id="layer3"></div>
-    <div class="layers hidden" id="layer4"></div>
+    <div class="layers" id="layer4">
+      <div id="splash-screen">
+        <img src="./src/ico/logo.png" alt="Code Avengers" />
+        <h2>Welcome to<br /><span>Code Avengers</span></h2>
+        <div id="new-game">
+          <form>
+            <div>
+              <input
+                type="text"
+                id="new-player"
+                name="new-player"
+                value=""
+                placeholder="your name?"
+              />
+            </div>
+            <div>
+              <button type="button" class="btn btn-danger btn-new-game">
+                start( <i class="fa-solid fa-play"></i> );
+              </button>
+              <button type="button" class="btn btn-primary btn-load-game">
+                load( <i class="fa-solid fa-folder-open"></i> );
+              </button>
+            </div>
+          </form>
+        </div>
+        <div>
+          <p>
+            Disclaimer: The story, all names, characters, and incidents portrayed in this production
+            are fictitious. No identification with actual persons (living or deceased), places,
+            buildings, and products is intended or should be inferred.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="layers hidden" id="layer5"></div>
 
     <!-- Start of Footer Menu -->
     <footer id="footer">
@@ -132,7 +174,7 @@
         <div id="character-info">
           <div class="status-bar-row">
             <div class="status-bar-name"><h5>Name :</h5></div>
-            <div class="status-bar-disp" id="char-name"></div>
+            <div class="status-bar-disp status-bar-text" id="char-name"></div>
           </div>
           <div class="status-bar-row">
             <div class="status-bar-name"><h5>HP :</h5></div>
@@ -142,10 +184,15 @@
             <div class="status-bar-name"><h5>SP :</h5></div>
             <div class="status-bar-disp" id="sp-bar"><span></span></div>
           </div>
-          <div class="status-bar-name">
+
+          <div class="status-bar-row">
+            <div class="status-bar-name"><h5>Cash :</h5></div>
+            <div class="status-bar-disp status-bar-text" id="char-cash"></div>
+          </div>
+          <!-- <div class="status-bar-name">
             <h5>Occupation :</h5>
           </div>
-          <div class="status-bar-disp" id="char-occupation"></div>
+          <div class="status-bar-disp" id="char-occupation"></div> -->
         </div>
       </div>
       <div id="character-stat">

@@ -39,52 +39,53 @@
 }
 
 #li-home {
-  background: no-repeat url("../src/ico/home.png") left/15% !important;
+  background: no-repeat url("../src/ico/home.png") left/15%;
 }
 #li-school {
-  background: no-repeat url("../src/ico/school.png") left/15% !important;
+  background: no-repeat url("../src/ico/school.png") left/15%;
 }
 #li-work {
-  background: no-repeat url("../src/ico/work.png") left/15% !important;
+  background: no-repeat url("../src/ico/work.png") left/15%;
 }
 #li-library {
-  background: no-repeat url("../src/ico/library.png") left/15% !important;
+  background: no-repeat url("../src/ico/library.png") left/15%;
 }
 #li-gym {
-  background: no-repeat url("../src/ico/gym.png") left/15% !important;
+  background: no-repeat url("../src/ico/gym.png") left/15%;
 }
 #li-yoga {
-  background: no-repeat url("../src/ico/yoga.png") left/15% !important;
+  background: no-repeat url("../src/ico/yoga.png") left/15%;
 }
 #li-playground {
-  background: no-repeat url("../src/ico/playground.png") left/15% !important;
+  background: no-repeat url("../src/ico/playground.png") left/15%;
 }
 #li-food {
-  background: no-repeat url("../src/ico/food.png") left/15% !important;
+  background: no-repeat url("../src/ico/food.png") left/15%;
 }
 #li-diner {
-  background: no-repeat url("../src/ico/diner.png") left/15% !important;
+  background: no-repeat url("../src/ico/diner.png") left/15%;
 }
 #li-cafe {
-  background: no-repeat url("../src/ico/cafe.png") left/15% !important;
+  background: no-repeat url("../src/ico/cafe.png") left/15%;
 }
 #li-bar {
-  background: no-repeat url("../src/ico/bar.png") left/15% !important;
+  background: no-repeat url("../src/ico/bar.png") left/15%;
 }
 
 @keyframes animatedBackground {
   0%,
   100% {
-    background-position: 0% 3px;
+    background-position: 0% 0.2vh;
   }
   25% {
-    background-position: -5% 3px;
+    background-position: -5% 0.2vh;
   }
   75% {
-    background-position: 5% 3px;
+    background-position: 5% 0.2vh;
   }
 }
-#location-list li:hover {
+#location-list li:hover,
+#location-list li:focus {
   animation: animatedBackground 0.5s ease-in 1 normal;
   color: red;
 }

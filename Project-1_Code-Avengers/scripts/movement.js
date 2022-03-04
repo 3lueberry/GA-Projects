@@ -5,7 +5,7 @@ const nodes = {
   point1: ["home", "yoga", "point2"],
   point2: ["home", "playground", "point1"],
   yoga: ["library", "gym", "point1"],
-  playground: ["point2", "point3"],
+  playground: ["point3", "point2"],
   point3: ["playground", "point4"],
   point4: ["bar", "gym", "point3"],
   gym: ["yoga", "point4", "point5"],
@@ -67,7 +67,7 @@ const moveChar = (path) => {
 };
 
 const pathFinder = (dest) => {
-  if (dest === shujinko.currPos.location || calcTravelTime(dest) <= 0.8) {
+  if (dest === shujinko.currPos.location /*|| calcTravelTime(dest) <= 0.8*/) {
     popup(dest);
     return;
   }
@@ -86,7 +86,9 @@ const pathFinder = (dest) => {
     // log(path, shortest);
     while (!pathFound && i < 18) {
       let shortest = 10;
-      for (let next of nodes[path[i]]) {
+      let copyNode = [...nodes[path[i]]];
+      if (i > 0) copyNode.splice(copyNode.indexOf(path[i - 1]), 1);
+      for (let next of copyNode) {
         //if (path.indexOf(next) === -1) {
         tempDist = calcTravelTime(next);
         log(shortest, tempDist);

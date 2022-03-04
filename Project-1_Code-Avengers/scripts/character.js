@@ -1,9 +1,12 @@
 "use strict";
 
-const shujinko = {
+let shujinko = {
   name: "Blueberry",
   hp: 100,
+  realHP: [100, 100],
   sp: 100,
+  realSP: [100, 100],
+  cash: 500,
   occupation: {},
   stamina: 10,
   mentality: 10,
@@ -16,13 +19,13 @@ const shujinko = {
   progress: {
     percent: 0,
     milestones: [],
-    day: 1,
+    day: 28,
     time: "AM",
     gameOver: 95,
     weeks: ["TUE", "WED", "THU", "FRI", "SAT", "SUN", "MON"],
-    months: { "02": 28, "03": 31, "04": 30, "05": 31 },
+    months: { FEB: 28, MAR: 31, APR: 30, MAY: 31 },
     holidays: {
-      "02": {
+      FEB: {
         "01": "Lunar New Year's Eve",
         "02": "Lunar New Year's Day",
         11: "National Foundation Day",
@@ -30,9 +33,9 @@ const shujinko = {
         22: "No Class",
         23: "The Emperor's Birthday",
       },
-      "03": { 21: "Vernal Equinox Day" },
-      "04": { 15: "Good Friday", 29: "Showa Day" },
-      "05": {
+      MAR: { 21: "Vernal Equinox Day" },
+      APR: { 15: "Good Friday", 29: "Showa Day" },
+      MAY: {
         "02": "Labour Day",
         "03": "Constitution Memorial Day",
         "04": "Greenery Day",
@@ -59,28 +62,36 @@ const shujinko = {
       "./src/img/berry_giveup.png",
     ],
   },
-  charName: function (newName = "") {
-    if (newName !== "") this.name = newName;
+  characterName: function (character = "") {
+    if (character !== "") this.name = character;
     return this.name;
   },
+  updateCash: function (cash = 0) {
+    this.cash += cash;
+    return this.cash;
+  },
   updatePoints: function (...args) {
+    this.realHP[1] = 100 + this.stamina;
+    this.realSP[1] = 100 + this.mentality;
     let change = { hp: 0, sp: 0 };
     for (let point of args) change[point.split(":")[0]] = parseInt(point.split(":")[1]);
     if (change.hp < 0 || change.sp < 0) {
-      change.hp * -1 < Math.floor(this.stamina * 0.5)
+      change.hp * -1 < Math.floor(this.strength * 0.3)
         ? (change.hp = 0)
-        : (change.hp += Math.floor(this.mentality * 0.5));
-      change.sp * -1 < Math.floor(this.mentality * 0.5)
+        : (change.hp += Math.floor(this.strength * 0.3));
+      change.sp * -1 < Math.floor(this.knowledge * 0.3)
         ? (change.sp = 0)
-        : (change.sp += Math.floor(this.mentality * 0.5));
+        : (change.sp += Math.floor(this.knowledge * 0.3));
     }
-    this.hp += change.hp;
-    this.sp += change.sp;
+    this.realHP[0] += change.hp;
+    this.hp = Math.round((this.realHP[0] / this.realHP[1]) * 100);
+    this.realSP[0] += change.sp;
+    this.sp = Math.round((this.realSP[0] / this.realSP[1]) * 100);
 
     document.querySelector(`#hp-bar span`).style.width = `${this.hp}%`;
     document.querySelector(`#sp-bar span`).style.width = `${this.sp}%`;
     this.updateProgress();
-    return [this.hp, this.sp];
+    return [this.hp, this.sp, change.hp, change.sp];
   },
   updateStats: function (...args) {
     for (let stat of args) {
@@ -88,6 +99,7 @@ const shujinko = {
         this[stat.split(":")[0]] += parseInt(stat.split(":")[1]);
       else this[stat.split(":")[0]] = 0;
     }
+    // characterBtn();
     document.querySelector("#character-stat .star").style.clipPath = this.drawStar(
       this.stamina,
       this.strength,
@@ -220,6 +232,44 @@ const shujinko = {
       else temp += ` `;
     }
     return temp;
+  },
+  cloneMe: function (meObj = undefined) {
+    if (meObj !== undefined) {
+      this.name = meObj.name;
+      this.hp = meObj.hp;
+      this.realHP = meObj.realHP;
+      this.sp = meObj.sp;
+      this.realSP = meObj.realSP;
+      this.cash = meObj.cash;
+      this.occupation = meObj.occupation;
+      this.stamina = meObj.stamina;
+      this.mentality = meObj.mentality;
+      this.strength = meObj.strength;
+      this.knowledge = meObj.knowledge;
+      this.charisma = meObj.charisma;
+      this.currPos = meObj.currPos;
+      this.items = meObj.items;
+      this.progress = meObj.progress;
+      this.speech = meObj.speech;
+    }
+    return {
+      name: this.name,
+      hp: this.hp,
+      realHP: this.realHP,
+      sp: this.sp,
+      realSP: this.realSP,
+      cash: this.cash,
+      occupation: this.occupation,
+      stamina: this.stamina,
+      mentality: this.mentality,
+      strength: this.strength,
+      knowledge: this.knowledge,
+      charisma: this.charisma,
+      currPos: this.currPos,
+      items: this.items,
+      progress: this.progress,
+      speech: this.speech,
+    };
   },
 };
 

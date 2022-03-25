@@ -42,7 +42,6 @@ Thumbs.db
 # Node/npm #
 ##############
 node_modules
-.env
 
 # Sass #
 ##############
@@ -76,7 +75,7 @@ config/master.key
 
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
-.env
+# .env
 
 ## Environment normalization:
 /.bundle
@@ -101,6 +100,7 @@ bower.json
 
 # Ignore node_modules
 node_modules/
+package-lock.json
 
 # Ignore precompiled javascript packs
 /public/packs
@@ -280,7 +280,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/

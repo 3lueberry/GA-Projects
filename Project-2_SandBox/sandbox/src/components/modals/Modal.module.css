@@ -1,0 +1,124 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.board {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 10px;
+}
+
+.modal {
+  position: fixed;
+  top: 30vh;
+  left: 10%;
+  width: 80%;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.header {
+  background: red;
+  padding: 0.5rem;
+}
+
+.header h2 {
+  margin: 0;
+  color: white;
+}
+
+.content {
+  padding: 0.5rem;
+}
+
+.actions {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (min-width: 600px) {
+  .modal {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
+}
+
+.modal.spinner {
+  left: calc(50% - 40px);
+  width: 80px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid green;
+  border-color: green transparent green transparent;
+  animation: spinner 1.2s linear infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.button {
+  font: inherit;
+  border: 1px solid darkblue;
+  background: darkblue;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:active {
+  background: blue;
+  border-color: blue;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.msgOptions {
+  background: whitesmoke;
+  padding: 10px 20px;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.msgOptions h6 {
+  margin-top: 0;
+}
+
+.msgOptions div {
+  max-width: 100%;
+  text-align: left;
+  overflow-wrap: break-word;
+}
+
+.btnOptions {
+  padding: 2px 6px;
+  margin: 2px 6px;
+  border-radius: 18px !important;
+}

@@ -5,7 +5,7 @@ import { userActions } from "../components/store/user";
 import { authActions } from "../components/store/auth";
 import { chatActions } from "../components/store/chat";
 import { loaderActions } from "../components/store/loader";
-import { Container, Button, Form, Overlay, Tooltip } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, Overlay, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
@@ -73,6 +73,28 @@ const StyledTooltip = styled(Tooltip)`
   }
 `;
 
+const EmojiTooltip = styled(Tooltip)`
+  transform: translate3d(8%, -38px, 0px) !important;
+  cursor: pointer;
+  width: 84%;
+
+  .tooltip-inner {
+    border-radius: 16px;
+    padding: 6px 12px 8px 12px;
+    width: 500px !important;
+    max-width: 70%;
+  }
+
+  .tooltip-arrow {
+    transform: translate3d(50px, 0px, 0px) !important;
+  }
+
+  p {
+    padding: 0;
+    text-align: left;
+  }
+`;
+
 const Message = () => {
   const params = useParams();
   const dispatchStore = useDispatch();
@@ -87,6 +109,9 @@ const Message = () => {
   const time = useSelector((state) => state.auth.time);
   const isLoading = useSelector((state) => state.loader.isLoading);
   const error = useSelector((state) => state.loader.error);
+
+  const emoji = ["😀", "😁", "😅", "🤣", "😘", "😜"];
+  const [showEmoji, setShowEmoji] = useState(false);
 
   const [send, setSend] = useState(false);
   const [fetch, setFetch] = useState(true);
@@ -293,9 +318,9 @@ const Message = () => {
   useEffect(() => {
     console.log(showPinned);
     if (showPinned && messages.length > 0) {
+      clearTimeout(fetchTimer);
       getPinned();
     } else {
-      //   clearTimeout(fetchTimer);
       setShowPinned(false);
       setFetch(true);
     }
@@ -303,8 +328,9 @@ const Message = () => {
   }, [showPinned]);
 
   useEffect(() => {
-    console.log(pinned);
-    if (pinned.length > 0) sendPinned();
+    // console.log(pinned);
+    if (pinned.length > 0 && login) sendPinned();
+    //eslint-disable-next-line
   }, [pinned]);
 
   const getPinned = async (newPin = null) => {
@@ -442,10 +468,10 @@ const Message = () => {
             style={{ left: "13px" }}
             onClick={() => navigate(`/${username}`, { replace: true })}
           >
-            <i className="fa-regular fa-circle-chevron-left"></i>
+            <i className="fa-solid fa-circle-arrow-left"></i>
           </StyledButton>
           <StyledButton style={{ right: "13px" }} onClick={() => setShowPinned(!showPinned)}>
-            <i className="fa-regular fa-thumbtack"></i>
+            <i className="fa-solid fa-map-pin"></i>
           </StyledButton>
         </Header>
         <Footer>
@@ -474,12 +500,41 @@ const Message = () => {
                   )}
                 </Overlay>
               )}
-              <StyledButton style={{ left: "13px" }}>
+              <StyledButton style={{ left: "13px" }} onClick={() => setShowEmoji(!showEmoji)}>
                 <i className="fa-regular fa-face-grin-beam"></i>
               </StyledButton>
               <StyledButton type="submit" style={{ right: "13px" }}>
                 <i className="fa-regular fa-circle-up"></i>
               </StyledButton>
+
+              {showEmoji && (
+                <Overlay target={textInputRef.current} show={showEmoji} placement="top">
+                  {(props) => (
+                    <EmojiTooltip id="emoji-tool-tip" {...props}>
+                      <Container>
+                        <Row>
+                          {emoji.map((emo, i) => {
+                            return (
+                              <Col
+                                key={i}
+                                xs={2}
+                                onClick={() => {
+                                  dispatchStore(
+                                    chatActions.textInputChange(textInputRef.current.value + emo)
+                                  );
+                                  setShowEmoji(false);
+                                }}
+                              >
+                                {emo}
+                              </Col>
+                            );
+                          })}
+                        </Row>
+                      </Container>
+                    </EmojiTooltip>
+                  )}
+                </Overlay>
+              )}
             </StyledForm>
           )}
         </Footer>

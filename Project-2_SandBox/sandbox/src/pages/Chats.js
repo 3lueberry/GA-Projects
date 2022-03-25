@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, Navigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
+import { Container, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../components/store/user";
 import { authActions } from "../components/store/auth";
@@ -11,12 +11,33 @@ import ErrorModal from "../components/modals/ErrorModal";
 import Header from "../components/Header";
 import Rooms from "../components/Rooms";
 import axios from "axios";
+import styled from "styled-components";
+
+const StyledButton = styled(Button)`
+  margin: 0;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  position: fixed;
+  bottom: 7px;
+  border: 2px;
+  border-radius: 14px;
+  text-aligment: center;
+  font-size: 24px;
+  line-height: 28px;
+
+  .header & {
+    bottom: initial;
+    top: 7px;
+  }
+`;
 
 const Chats = () => {
   const params = useParams();
   const dispatchStore = useDispatch();
   const rooms = useSelector((state) => state.chat.rooms);
   const login = useSelector((state) => state.user.login);
+  const username = useSelector((state) => state.user.username);
   const token = useSelector((state) => state.auth.token);
   const refresh = useSelector((state) => state.auth.refresh);
   const time = useSelector((state) => state.auth.time);
@@ -26,6 +47,7 @@ const Chats = () => {
   const [fetch, setFetch] = useState(true);
   // const fetchTimer = useRef(setTimeout(() => {}, 0));
   // let fetchTimer = setTimeout(() => {}, 0);
+  const navigate = useNavigate();
 
   // console.log(refresh);
 
@@ -126,7 +148,18 @@ const Chats = () => {
         }}
       >
         {rooms && rooms.length > 0 && <Rooms>{params.user}</Rooms>}
-        <Header>{params.user}</Header>
+        <Header className="header">
+          {params.user}
+          <StyledButton
+            style={{ left: "13px" }}
+            onClick={() => {
+              dispatchStore(userActions.logout());
+              navigate(`/`, { replace: true });
+            }}
+          >
+            <i className="fa-solid fa-circle-arrow-left"></i>
+          </StyledButton>
+        </Header>
       </Container>
     </>
   );

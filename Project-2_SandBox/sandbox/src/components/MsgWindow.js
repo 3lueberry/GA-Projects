@@ -82,7 +82,11 @@ const MsgWindow = ({ setPopupOptions, onClick, children }) => {
               <>
                 <Sender>{msg.sender}</Sender>
                 <Msg>
-                  <Text>{msg.text}</Text>
+                  <Text
+                    dangerouslySetInnerHTML={{
+                      __html: msg.text,
+                    }}
+                  ></Text>
                 </Msg>
               </>
             );
@@ -107,7 +111,11 @@ const MsgWindow = ({ setPopupOptions, onClick, children }) => {
                       >
                         <b>{messages.find((m) => m.id === msg.reply).sender}</b>
                         {": "}
-                        <span>{messages.find((m) => m.id === msg.reply).text}</span>
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: messages.find((m) => m.id === msg.reply).text,
+                          }}
+                        ></span>
                       </Reply>
                     )}
                     <Text

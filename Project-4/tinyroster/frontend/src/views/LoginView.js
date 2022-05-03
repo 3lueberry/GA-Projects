@@ -2,15 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../stores/auth";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loaderActions } from "../stores/loader";
 
 import StyledTextInput from "../components/StyledTextInput";
 import { FontAwesome } from "@expo/vector-icons";
 
-import axios from "axios";
+import django from "../api/django";
 
-const LoginView = ({ navigation }) => {
+const LoginView = ({ navigation: { navigate } }) => {
   const dispatchStore = useDispatch();
   const token = useSelector((state) => state.auth);
 
@@ -21,8 +20,6 @@ const LoginView = ({ navigation }) => {
   const usernameRef = useRef();
   const passwordRef = useRef();
 
-  const [authToken, setAuth] = useState(null);
-
   const handleSubmit = () => {
     setValidation(true);
     if (username === "") usernameRef.current.focus();
@@ -32,29 +29,32 @@ const LoginView = ({ navigation }) => {
     }
   };
 
-  const getData = async () => {
-    try {
-      const res = await AsyncStorage.getItem("tiny-roster");
-      const { auth } = res != null ? JSON.parse(res) : { auth: null };
-      setAuth(auth);
-    } catch (e) {
-      // error reading value
-      console.error(e);
-    }
+  const postLogin = async (signal) => {
+    dispatchStore(loaderActions.setIsLoading());
+    dispatchStore(loaderActions.clearError());
+    const res = await django.post(`/login/`, submit, { signal }).catch((err) => {
+      console.error(err.message);
+      dispatchStore(loaderActions.setError({ title: "Login Failed", message: err.message }));
+      setSubmit(null);
+      setValidation(false);
+    });
+    dispatchStore(loaderActions.doneLoading());
+    if (res && res.status === 200) dispatchStore(authActions.setAuth(res.data));
   };
 
   useEffect(() => {
-    setValidation(false);
-    if (submit) console.log(submit);
+    const controller = new AbortController();
+    if (submit && validation) {
+      setValidation(false);
+      postLogin(controller.signal);
+    }
+    return () => controller.abort();
+    //eslint-disable-next-line
   }, [submit]);
 
   useEffect(() => {
-    getData();
+    if (token.access) navigate("Profile");
   }, [token]);
-
-  useEffect(() => {
-    console.log(authToken);
-  }, [authToken]);
 
   return (
     <View style={styles.container}>
@@ -109,7 +109,7 @@ const LoginView = ({ navigation }) => {
       <Button
         title="Reset Password"
         onPress={() => {
-          navigation.navigate("Reset Password");
+          navigate("Reset Password");
         }}
       />
     </View>

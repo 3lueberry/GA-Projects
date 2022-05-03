@@ -54,9 +54,11 @@ class Login(APIView):
                 data = { "message": "something went wrong" },
                 status = status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-
+        permissions = AccountTypes.objects.get(type=user.type)
+        permissions = srlzr.AddAccountTypesSerializer(permissions)
+        user = srlzr.UserDetailsSerializer(user)
         return Response(
-                data = serializer.data,
+                data = {**serializer.data, "permissions": permissions.data, "user": user.data},
                 status=status.HTTP_200_OK
             )
 

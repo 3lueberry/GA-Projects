@@ -1,13 +1,10 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import React from "react";
 import { StyleSheet, ImageBackground, View, Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../stores/auth";
-
-import axios from "axios";
+import { useSelector } from "react-redux";
 import StyledButton from "../components/StyledButton";
 
-const HomeView = ({ navigation }) => {
-  useLayoutEffect(() => {}, []);
+const HomeView = ({ navigation: { navigate } }) => {
+  const isLoading = useSelector((state) => state.loader.isLoading);
 
   return (
     <View style={styles.container}>
@@ -17,13 +14,15 @@ const HomeView = ({ navigation }) => {
         style={styles.imgBackground}
       >
         <Image style={styles.imgStyle} source={require("../../assets/icon.png")} />
-        <StyledButton
-          title="LOGIN"
-          onPress={() => {
-            navigation.navigate("Login");
-          }}
-          style={styles.btnStyle}
-        />
+        {!isLoading && (
+          <StyledButton
+            title="LOGIN"
+            onPress={() => {
+              navigate("Login");
+            }}
+            style={styles.btnStyle}
+          />
+        )}
       </ImageBackground>
     </View>
   );

@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../stores/auth";
+import { useDispatch } from "react-redux";
+import { loaderActions } from "../stores/loader";
 
 import StyledTextInput from "../components/StyledTextInput";
 import { FontAwesome } from "@expo/vector-icons";
 
-import axios from "axios";
+import django from "../api/django";
+import StyledButton from "../components/StyledButton";
 
-const ResetPasswordView = () => {
+const ResetPasswordView = ({ navigation: { goBack } }) => {
   const dispatchStore = useDispatch();
-  const token = useSelector((state) => state.auth);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,11 +32,29 @@ const ResetPasswordView = () => {
     }
   };
 
+  const patchResetPassword = async (signal) => {
+    dispatchStore(loaderActions.setIsLoading());
+    dispatchStore(loaderActions.clearError());
+    const res = await django.patch(`/reset-password/`, submit, { signal }).catch((err) => {
+      console.error(err.message);
+      dispatchStore(
+        loaderActions.setError({ title: "Password Reset Failed", message: err.message })
+      );
+      setSubmit(null);
+      setValidation(false);
+    });
+    dispatchStore(loaderActions.doneLoading());
+    if (res && res.status === 202) goBack();
+  };
+
   useEffect(() => {
+    const controller = new AbortController();
     if (submit && validation) {
       setValidation(false);
-      console.log(submit);
+      patchResetPassword(controller.signal);
     }
+    return () => controller.abort();
+    //eslint-disable-next-line
   }, [submit]);
 
   return (
@@ -98,7 +116,7 @@ const ResetPasswordView = () => {
         selectTextOnFocus={true}
         blurOnSubmit={false}
         editable={!submit}
-        returnKeyType="send"
+        returnKeyType="next"
         onChangeText={(value) => {
           setNewPassword(value);
         }}
@@ -135,6 +153,7 @@ const ResetPasswordView = () => {
           new_password !== confirmPasswordRef.current.value &&
           "passwords do not match."}
       </Text>
+      <StyledButton title="RESET" onPress={handleSubmit} style={styles.btnStyle} />
     </View>
   );
 };
@@ -145,6 +164,11 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "700",
     marginBottom: 30,
+  },
+
+  btnStyle: {
+    flex: 1,
+    width: 200,
   },
 
   warnStyle: {

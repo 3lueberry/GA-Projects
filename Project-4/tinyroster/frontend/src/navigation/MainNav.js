@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -34,9 +34,10 @@ const LogoTitle = () => {
 const MainNav = () => {
   const access = useSelector((state) => state.auth.access);
   const permissions = useSelector((state) => state.auth.permissions);
+
   return (
     <>
-      {access ? (
+      {!access ? (
         <StackNav.Navigator>
           <StackNav.Screen name="Home" component={HomeView} options={{ headerShown: false }} />
           <StackNav.Screen name="Login" component={LoginView} />
@@ -59,12 +60,12 @@ const MainNav = () => {
                       );
                     }}
                   </TopTabNav.Screen>
-                  <TopTabNav.Screen name="Outlets">
+                  <TopTabNav.Screen name="Locations">
                     {() => {
                       return (
                         <StackNav.Navigator>
-                          <StackNav.Screen name="Outlet List" component={JobListView} />
-                          <StackNav.Screen name="Outlet Details" component={JobDetailsView} />
+                          <StackNav.Screen name="Location List" component={OutletListView} />
+                          <StackNav.Screen name="Location Details" component={OutletDetailsView} />
                         </StackNav.Navigator>
                       );
                     }}

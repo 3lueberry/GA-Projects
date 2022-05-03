@@ -6,6 +6,7 @@ const authSlice = createSlice({
     access: null,
     refresh: null,
     permissions: {
+      type: "",
       is_fulltimer: false,
       is_manager: false,
       is_payroll: false,
@@ -16,17 +17,24 @@ const authSlice = createSlice({
   },
   reducers: {
     setAuth(state, action) {
+      console.log("new token set", new Date());
+      state.access = action.payload.access;
+      state.refresh = action.payload.refresh;
+      state.permissions = action.payload.permissions;
+      state.user = action.payload.user;
+      state.time = Date.now();
+    },
+    refreshAuth(state, action) {
       console.log("token refreshed", new Date());
       state.access = action.payload.access;
       state.refresh = action.payload.refresh;
-      if (action.payload.permissions) state.permissions = action.payload.permissions;
-      if (action.payload.user) state.user = action.payload.user;
       state.time = Date.now();
     },
     clearAuth(state) {
       state.access = null;
       state.refresh = null;
       state.permissions = {
+        type: "",
         is_fulltimer: false,
         is_manager: false,
         is_payroll: false,

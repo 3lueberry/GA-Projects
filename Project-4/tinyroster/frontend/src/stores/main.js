@@ -1,7 +1,19 @@
-import { configureStore } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+
 import authReducer from "./auth";
-// import loaderReducer from "./loader";
+import loaderReducer from "./loader";
 
 const storeData = async (value) => {
   try {
@@ -15,9 +27,7 @@ const storeData = async (value) => {
 const localStorageMiddleware = ({ getState }) => {
   return (next) => (action) => {
     const result = next(action);
-    storeData({
-      auth: getState().auth,
-    });
+    storeData({ auth: getState().auth });
     return result;
   };
 };
@@ -39,12 +49,30 @@ const localStorageMiddleware = ({ getState }) => {
 //   }
 // };
 
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-  },
-  // preloadedState: reStore(),
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
+const reducers = combineReducers({
+  auth: authReducer,
+  loader: loaderReducer,
 });
 
-export default store;
+const persistConfig = {
+  key: "tiny-roster",
+  storage: AsyncStorage,
+  whitelist: ["auth"],
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  // preloadedState: reStore(),
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+// export default store;
+export const persistor = persistStore(store);

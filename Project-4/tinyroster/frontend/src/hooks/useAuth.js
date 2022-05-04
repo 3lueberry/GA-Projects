@@ -12,7 +12,7 @@ export default () => {
 
   const checkAuth = async () => {
     const res = await django.get("/auth/", { headers }).catch((err) => {
-      dispatchStore(authActions.clearAuth());
+      // dispatchStore(authActions.clearAuth());
     });
     if (res) {
       return res.data;

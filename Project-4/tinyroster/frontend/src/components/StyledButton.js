@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
   },
 
   iconStyle: {
-    paddingVertical: 5,
-    paddingLeft: 10,
+    // paddingVertical: 5,
+    // paddingLeft: 10,
   },
 
   container: {
@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
     // borderColor: "whitesmoke",
     flexDirection: "row",
     alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
   },
 
   touchStyle: {

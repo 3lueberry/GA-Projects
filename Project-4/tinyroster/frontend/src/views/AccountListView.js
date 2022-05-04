@@ -1,71 +1,90 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SectionList } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../stores/auth";
 import { loaderActions } from "../stores/loader";
 
-import django from "../api/django";
-import useAuth from "../hooks/useAuth";
 import useGetAPI from "../hooks/useGetAPI";
+import ListItem from "../components/ListItem";
 
 const AccountListView = () => {
   console.log("This is AccountListView");
 
   const dispatchStore = useDispatch();
-  const token = useSelector((state) => state.auth);
-
-  const { authIsValid, checkAuth } = useAuth();
-  const { response, callGetAPI } = useGetAPI([]);
-
-  const [accountTypes, setAccountTypes] = useState([]);
+  const isLoading = useSelector((state) => state.loader.isLoading);
+  const { response, getAPI } = useGetAPI([]);
+  const [accountList, setAccountList] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
-      const abort = checkAuth();
+      dispatchStore(loaderActions.clearError());
       return () => {
-        abort();
         dispatchStore(loaderActions.clearError());
       };
     }, [])
   );
 
   useEffect(() => {
-    let abort = () => {};
-    if (authIsValid) abort = callGetAPI("/account/");
-    return () => {
-      abort();
-    };
-  }, [authIsValid]);
+    getAPI("/account/");
+  }, []);
 
   useEffect(() => {
-    const accTypeArr = response.map(({ type }) => type.type);
-    setAccountTypes([...new Set(accTypeArr)]);
+    const accounts = [...new Set(response.map(({ type }) => type.type))];
+    setAccountList(
+      accounts.map((acc) => ({
+        title: acc,
+        data: response.filter(({ type }) => type.type === acc),
+      }))
+    );
   }, [response]);
-
-  useEffect(() => {
-    console.log(accountTypes);
-  }, [accountTypes]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>Hello World!</Text>
-      {token.access && <Text>Welcome!</Text>}
-      <Text>{process.env.SERVER_KEY}</Text>
-      <Text>{process.env.SERVER_DOMAIN}</Text>
-      <Text>{process.env.SERVER_PROJECT_ID}</Text>
+      {!response.length && !isLoading && <Text style={styles.textStyle}>Pull to Refresh</Text>}
+      <SectionList
+        sections={accountList}
+        keyExtractor={({ id }) => id}
+        onRefresh={() => {
+          getAPI("/account/");
+        }}
+        refreshing={isLoading}
+        renderItem={({ item }) => (
+          <ListItem
+            title={item.name}
+            subtitle={item.contact}
+            imgSrc={item.img ? { url: item.img } : require("../../assets/icon.png")}
+          />
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text style={styles.secHeader}>{title}</Text>
+        )}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  textStyle: {},
+  textStyle: {
+    flex: 1,
+    textAlign: "center",
+    paddingTop: 10,
+    color: "#666",
+  },
+
+  secHeader: {
+    flex: 1,
+    fontSize: 20,
+    fontWeight: "500",
+    padding: 10,
+    color: "white",
+    backgroundColor: "#369",
+  },
 
   container: {
-    paddingTop: 10,
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    backgroundColor: "whitesmoke",
+    // alignItems: "center",
     // justifyContent: "center",
   },
 });

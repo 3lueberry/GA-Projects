@@ -2,28 +2,32 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../stores/auth";
 import { loaderActions } from "../stores/loader";
 
-// import useAuth from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 
 const AccountDetailsView = () => {
   console.log("This is AccountDetailsView");
 
   const dispatchStore = useDispatch();
   const token = useSelector((state) => state.auth);
+  const [authIsValid, setAuthIsValid] = useState(false);
+  const { checkAuth, getRefresh } = useAuth();
 
-  // const { authIsValid, checkAuth } = useAuth();
+  useFocusEffect(
+    useCallback(() => {
+      dispatchStore(loaderActions.clearError());
+      return () => {
+        dispatchStore(loaderActions.clearError());
+      };
+    }, [])
+  );
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     const abort = checkAuth();
-  //     return () => {
-  //       abort();
-  //       dispatchStore(loaderActions.clearError());
-  //     };
-  //   }, [])
-  // );
+  // useEffect(async () => {
+  //   let auth = await checkAuth();
+  //   if (!auth) auth = await getRefresh();
+  //   if (auth) setAuthIsValid(true);
+  // }, []);
 
   return (
     <View style={styles.container}>

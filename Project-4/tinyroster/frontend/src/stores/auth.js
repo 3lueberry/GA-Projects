@@ -23,12 +23,14 @@ const authSlice = createSlice({
       state.permissions = action.payload.permissions;
       state.user = action.payload.user;
       state.time = Date.now();
+      console.log(state);
     },
     refreshAuth(state, action) {
       console.log("token refreshed", new Date());
       state.access = action.payload.access;
       state.refresh = action.payload.refresh;
       state.time = Date.now();
+      console.log(state);
     },
     clearAuth(state) {
       state.access = null;

@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
   },
 
   btnStyle: {
-    flex: 1,
     width: 200,
+    backgroundColor: "#36f",
   },
 
   warnStyle: {

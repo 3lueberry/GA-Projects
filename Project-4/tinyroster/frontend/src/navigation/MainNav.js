@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+// import { loaderActions } from "../stores/loader";
+import useAuth from "../hooks/useAuth";
 
 import HomeView from "../views/HomeView";
 import LoginView from "../views/LoginView";
@@ -32,8 +34,23 @@ const LogoTitle = () => {
 };
 
 const MainNav = () => {
+  // const dispatchStore = useDispatch();
+  // const token = useSelector((state) => state.auth);
   const access = useSelector((state) => state.auth.access);
   const permissions = useSelector((state) => state.auth.permissions);
+  const [authIsValid, setAuthIsValid] = useState(false);
+  const { checkAuth, getRefresh } = useAuth();
+
+  // useEffect(async () => {
+  //   dispatchStore(loaderActions.setIsLoading());
+  //   console.log(token);
+  //   if (access) {
+  //     let auth = await checkAuth();
+  //     if (!auth) auth = await getRefresh();
+  //     if (auth) setAuthIsValid(true);
+  //   }
+  //   dispatchStore(loaderActions.doneLoading());
+  // }, []);
 
   return (
     <>

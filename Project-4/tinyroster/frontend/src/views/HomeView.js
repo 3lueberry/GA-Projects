@@ -38,6 +38,8 @@ const styles = StyleSheet.create({
 
   btnStyle: {
     top: 200,
+    backgroundColor: "#36f",
+    paddingVertical: 10,
   },
 
   container: {

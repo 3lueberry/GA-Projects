@@ -1,9 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../stores/auth";
+import { loaderActions } from "../stores/loader";
 
-import axios from "axios";
+import django from "../api/django";
+import useAuth from "../hooks/useAuth";
+import useGetAPI from "../hooks/useGetAPI";
 
 const AccountListView = () => {
   console.log("This is AccountListView");
@@ -11,10 +15,37 @@ const AccountListView = () => {
   const dispatchStore = useDispatch();
   const token = useSelector((state) => state.auth);
 
-  const [submit, setSubmit] = useState(false);
-  const [signup, setSignup] = useState(false);
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+  const { authIsValid, checkAuth } = useAuth();
+  const { response, callGetAPI } = useGetAPI([]);
+
+  const [accountTypes, setAccountTypes] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const abort = checkAuth();
+      return () => {
+        abort();
+        dispatchStore(loaderActions.clearError());
+      };
+    }, [])
+  );
+
+  useEffect(() => {
+    let abort = () => {};
+    if (authIsValid) abort = callGetAPI("/account/");
+    return () => {
+      abort();
+    };
+  }, [authIsValid]);
+
+  useEffect(() => {
+    const accTypeArr = response.map(({ type }) => type.type);
+    setAccountTypes([...new Set(accTypeArr)]);
+  }, [response]);
+
+  useEffect(() => {
+    console.log(accountTypes);
+  }, [accountTypes]);
 
   return (
     <View style={styles.container}>

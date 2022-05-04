@@ -256,7 +256,7 @@ class AccountList(APIView):
     permission_class = (IsAdminUser,)
 
     def get(self, request):
-        accounts = Account.objects.all()
+        accounts = Account.objects.all().order_by('name')
         serialized_accounts = srlzr.UserDetailsSerializer(accounts, many=True)
         return Response(data = serialized_accounts.data, status = status.HTTP_200_OK)
 

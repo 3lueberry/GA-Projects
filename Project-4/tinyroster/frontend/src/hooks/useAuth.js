@@ -37,22 +37,20 @@ export default (initialState = false) => {
     dispatchStore(loaderActions.doneLoading());
   };
 
-  useEffect(() => {
-    const controller = new AbortController();
-    if ((token.access || token.refresh) && !authIsValid) getAuth(controller.signal);
-    return () => controller.abort();
-    //eslint-disable-next-line
-  }, [authIsValid]);
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   if ((token.access || token.refresh) && !authIsValid) getAuth(controller.signal);
+  //   return () => controller.abort();
+  //   //eslint-disable-next-line
+  // }, [authIsValid]);
 
-  return [authIsValid, setAuthIsValid];
+  // return [authIsValid, setAuthIsValid];
 
-  // return {
-  //   authIsValid,
-  //   checkAuth: () => {
-  //     setAuthIsValid(false);
-  //     const controller = new AbortController();
-  //     if (token.access || token.refresh) getAuth(controller.signal);
-  //     return () => controller.abort();
-  //   },
-  // };
+  return {
+    authIsValid,
+    checkAuth: (controller) => {
+      setAuthIsValid(false);
+      if (token.access || token.refresh) getAuth(controller.signal);
+    },
+  };
 };

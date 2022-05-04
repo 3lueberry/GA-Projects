@@ -75,7 +75,16 @@ const MainNav = () => {
             }}
           </BottomTabNav.Screen>
           {permissions.is_admin && (
-            <BottomTabNav.Screen name="Accounts" component={AccountListView} />
+            <BottomTabNav.Screen name="Accounts">
+              {() => {
+                return (
+                  <StackNav.Navigator>
+                    <StackNav.Screen name="Account List" component={AccountListView} />
+                    <StackNav.Screen name="Account Details" component={AccountDetailsView} />
+                  </StackNav.Navigator>
+                );
+              }}
+            </BottomTabNav.Screen>
           )}
           <BottomTabNav.Screen name="Time Sheets" component={TimesheetListView} />
         </BottomTabNav.Navigator>

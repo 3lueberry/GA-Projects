@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../stores/auth";
 import { loaderActions } from "../stores/loader";
 
-import useAuth from "../hooks/useAuth";
+// import useAuth from "../hooks/useAuth";
 
 const AccountDetailsView = () => {
   console.log("This is AccountDetailsView");
@@ -13,24 +13,17 @@ const AccountDetailsView = () => {
   const dispatchStore = useDispatch();
   const token = useSelector((state) => state.auth);
 
-  const [submit, setSubmit] = useState(false);
-  const [signup, setSignup] = useState(false);
-  const usernameRef = useRef();
-  const passwordRef = useRef();
-
-  const [authIsValid, setAuthIsValid] = useAuth();
   // const { authIsValid, checkAuth } = useAuth();
 
-  useFocusEffect(
-    useCallback(() => {
-      // const abort = checkAuth();
-      setAuthIsValid(false);
-      return () => {
-        // abort();
-        dispatchStore(loaderActions.clearError());
-      };
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     const abort = checkAuth();
+  //     return () => {
+  //       abort();
+  //       dispatchStore(loaderActions.clearError());
+  //     };
+  //   }, [])
+  // );
 
   return (
     <View style={styles.container}>

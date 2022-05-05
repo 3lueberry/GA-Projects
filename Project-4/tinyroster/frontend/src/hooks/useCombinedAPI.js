@@ -20,7 +20,7 @@ export default (initialState = null) => {
     dispatchStore(loaderActions.setIsLoading());
     dispatchStore(loaderActions.clearError());
     const config = {
-      method: "delete",
+      method,
       url,
       headers,
       data,

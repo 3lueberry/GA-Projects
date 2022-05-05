@@ -1,53 +1,103 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loaderActions } from "../stores/loader";
+import { Picker } from "@react-native-picker/picker";
 
-import useAuth from "../hooks/useAuth";
+import StyledTextInput from "../components/StyledTextInput";
+import { FontAwesome } from "@expo/vector-icons";
 
-const AccountDetailsView = ({ navigation: { navigate }, route }) => {
-  console.log("This is AccountDetailsView");
+import useCombinedAPI from "../hooks/useCombinedAPI";
+import StyledButton from "../components/StyledButton";
 
+const CreateAccountView = ({ navigation: { goBack }, route }) => {
   const dispatchStore = useDispatch();
-  const token = useSelector((state) => state.auth);
-  const [authIsValid, setAuthIsValid] = useState(false);
-  const { checkAuth, getRefresh } = useAuth();
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatchStore(loaderActions.clearError());
-      return () => {
-        dispatchStore(loaderActions.clearError());
-      };
-    }, [])
-  );
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [type, setType] = useState("PARTTIMER");
+  const [submit, setSubmit] = useState(true);
+  const [validation, setValidation] = useState(false);
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+  const nameRef = useRef();
+  const contactRef = useRef();
 
-  // useEffect(async () => {
-  //   let auth = await checkAuth();
-  //   if (!auth) auth = await getRefresh();
-  //   if (auth) setAuthIsValid(true);
-  // }, []);
+  const combinedAPI = useCombinedAPI();
+
+  const handleSubmit = () => {
+    setValidation(true);
+    if (username === "") usernameRef.current.focus();
+    else {
+      setSubmit({ username, password, name, contact, type });
+    }
+  };
+
+  useEffect(() => {
+    if (route.params.user) {
+      setName(route.params.user.name);
+      setContact(route.params.user.contact);
+      setType(route.params.user.type.type);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (combinedAPI.response) goBack();
+    else setSubmit(false);
+  }, [combinedAPI.response]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    if (submit && validation) {
+      setValidation(false);
+      combinedAPI.combinedAPI(`/account/create/`, submit, "put");
+    }
+    return () => controller.abort();
+    //eslint-disable-next-line
+  }, [submit]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textStyle}>Hello World!</Text>
-      {token.access && <Text>Welcome, {token.user.name}!</Text>}
-      <Text>{route.params.user.name}</Text>
+      <StyledTextInput value={name}>
+        <FontAwesome name="user-circle-o" size={30} color="grey" />
+      </StyledTextInput>
+      <StyledTextInput value={contact}>
+        <FontAwesome name="mobile" size={30} color="grey" style={{ paddingLeft: 10 }} />
+      </StyledTextInput>
+
+      <StyledTextInput value={type}>
+        <FontAwesome name="users" size={30} color="grey" style={{ paddingLeft: 0 }} />
+      </StyledTextInput>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  textStyle: {},
+  textStyle: {
+    fontSize: 30,
+    color: "#333",
+    fontWeight: "700",
+    marginBottom: 30,
+  },
+
+  btnStyle: {
+    width: 200,
+    backgroundColor: "#36f",
+    top: 80,
+  },
+
+  warnStyle: {
+    color: "red",
+  },
 
   container: {
     paddingTop: 10,
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    // justifyContent: "center",
+    ...StyleSheet.absoluteFill,
   },
 });
 
-export default AccountDetailsView;
+export default CreateAccountView;

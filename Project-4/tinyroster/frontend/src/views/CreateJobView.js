@@ -10,7 +10,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import useCombinedAPI from "../hooks/useCombinedAPI";
 import StyledButton from "../components/StyledButton";
 
-const CreateAccountView = ({ navigation: { goBack, setOptions }, route }) => {
+const CreateAccountView = ({ navigation: { goBack }, route }) => {
   const dispatchStore = useDispatch();
 
   const [username, setUsername] = useState("");
@@ -29,10 +29,9 @@ const CreateAccountView = ({ navigation: { goBack, setOptions }, route }) => {
 
   const handleSubmit = () => {
     setValidation(true);
-    if (username === "" && !route.params.user) usernameRef.current.focus();
+    if (username === "") usernameRef.current.focus();
     else {
-      if (route.params.user) setSubmit({ name, contact, type });
-      else setSubmit({ username, password, name, contact, type });
+      setSubmit({ username, password, name, contact, type });
     }
   };
 
@@ -41,7 +40,6 @@ const CreateAccountView = ({ navigation: { goBack, setOptions }, route }) => {
       setName(route.params.user.name);
       setContact(route.params.user.contact);
       setType(route.params.user.type.type);
-      setOptions({ title: "Edit Account" });
     }
   }, []);
 
@@ -62,57 +60,50 @@ const CreateAccountView = ({ navigation: { goBack, setOptions }, route }) => {
 
   return (
     <View style={styles.container}>
-      {!route.params.user && (
-        <StyledTextInput
-          value={username}
-          inputRef={usernameRef}
-          placeholder="username"
-          textContentType="username"
-          autoCapitalize="none"
-          autoComplete={false}
-          autoCorrect={false}
-          blurOnSubmit={false}
-          autoFocus={true}
-          editable={!submit}
-          returnKeyType="next"
-          onChangeText={(value) => {
-            setUsername(value.trim());
-          }}
-          onSubmitEditing={(e) => {
-            passwordRef.current.focus();
-          }}
-        >
-          <FontAwesome name="user-circle-o" size={30} color="grey" />
-        </StyledTextInput>
-      )}
-      {validation && !username && !route.params.user && (
-        <Text style={styles.warnStyle}>username required.</Text>
-      )}
-
-      {!route.params.user && (
-        <StyledTextInput
-          value={password}
-          inputRef={passwordRef}
-          placeholder="old password"
-          textContentType="password"
-          secureTextEntry={true}
-          autoCapitalize="none"
-          autoComplete={false}
-          autoCorrect={false}
-          selectTextOnFocus={true}
-          blurOnSubmit={false}
-          editable={!submit}
-          returnKeyType="next"
-          onChangeText={(value) => {
-            setPassword(value);
-          }}
-          onSubmitEditing={(e) => {
-            nameRef.current.focus();
-          }}
-        >
-          <FontAwesome name="lock" size={30} color="grey" style={{ paddingLeft: 5 }} />
-        </StyledTextInput>
-      )}
+      <StyledTextInput
+        value={username}
+        inputRef={usernameRef}
+        placeholder="username"
+        textContentType="username"
+        autoCapitalize="none"
+        autoComplete={false}
+        autoCorrect={false}
+        blurOnSubmit={false}
+        autoFocus={true}
+        editable={!submit}
+        returnKeyType="next"
+        onChangeText={(value) => {
+          setUsername(value.trim());
+        }}
+        onSubmitEditing={(e) => {
+          passwordRef.current.focus();
+        }}
+      >
+        <FontAwesome name="user-circle-o" size={30} color="grey" />
+      </StyledTextInput>
+      {validation && !username && <Text style={styles.warnStyle}>username required.</Text>}
+      <StyledTextInput
+        value={password}
+        inputRef={passwordRef}
+        placeholder="old password"
+        textContentType="password"
+        secureTextEntry={true}
+        autoCapitalize="none"
+        autoComplete={false}
+        autoCorrect={false}
+        selectTextOnFocus={true}
+        blurOnSubmit={false}
+        editable={!submit}
+        returnKeyType="next"
+        onChangeText={(value) => {
+          setPassword(value);
+        }}
+        onSubmitEditing={(e) => {
+          nameRef.current.focus();
+        }}
+      >
+        <FontAwesome name="lock" size={30} color="grey" style={{ paddingLeft: 5 }} />
+      </StyledTextInput>
       <StyledTextInput
         value={name}
         inputRef={nameRef}

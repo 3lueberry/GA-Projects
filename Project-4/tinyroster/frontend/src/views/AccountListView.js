@@ -70,6 +70,9 @@ const AccountListView = ({ navigation: { navigate } }) => {
         refreshing={isLoading}
         renderItem={({ item }) => (
           <ListItem
+            onEdit={() => {
+              navigate("Create Account", { user: item });
+            }}
             onDelete={() => {
               setToDelete(item.id);
               handleDelete();

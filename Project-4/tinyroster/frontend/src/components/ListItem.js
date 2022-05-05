@@ -3,12 +3,14 @@ import { StyleSheet, TouchableOpacity, Text, View, Image } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { FontAwesome } from "@expo/vector-icons";
 import StyledButton from "../components/StyledButton";
+import { useSelector, useDispatch } from "react-redux";
 
-const ListItem = ({ children, title, subtitle, onPress, style, imgSrc, onDelete }) => {
+const ListItem = ({ children, title, subtitle, onPress, style, imgSrc, onDelete, onEdit }) => {
+  const permissions = useSelector((state) => state.auth.permissions);
   const LeftSwipeActions = () => {
     return (
       <View style={{ width: 60, backgroundColor: "#33dd66", justifyContent: "center" }}>
-        <StyledButton activeOpacity={0.5} style={styles.delBtnStyle}>
+        <StyledButton activeOpacity={0.5} style={styles.delBtnStyle} onPress={onEdit}>
           <FontAwesome name="edit" size={30} color="whitesmoke" />
         </StyledButton>
       </View>
@@ -40,7 +42,7 @@ const ListItem = ({ children, title, subtitle, onPress, style, imgSrc, onDelete 
     console.log("DELETE");
   };
 
-  return (
+  return permissions.is_manager || permissions.is_admin ? (
     <Swipeable
       renderLeftActions={LeftSwipeActions}
       renderRightActions={RightSwipeActions}
@@ -60,6 +62,16 @@ const ListItem = ({ children, title, subtitle, onPress, style, imgSrc, onDelete 
         </View>
       </TouchableOpacity>
     </Swipeable>
+  ) : (
+    <TouchableOpacity delayPressIn={50} onPress={onPress} style={style}>
+      <View style={styles.container}>
+        {imgSrc && <Image source={imgSrc} style={styles.iconStyle} />}
+        <View style={styles.textViewStyle}>
+          <Text style={styles.titleStyle}>{title}</Text>
+          {subtitle ? <Text style={styles.subtitleStyle}>{subtitle}</Text> : null}
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 

@@ -16,6 +16,7 @@ class Job(models.Model):
     end_time = models.DateTimeField(verbose_name='End', auto_now=False)
 
     no_staff = models.PositiveSmallIntegerField(verbose_name='No. of Staffs', blank=True, null=True)
+    is_deleted = models.BooleanField(verbose_name='Job Deleted', default=False)
 
     class Meta:
         verbose_name = "Job"
@@ -37,19 +38,20 @@ class JobStatus(models.Model):
 
 
 class JobUser(models.Model):
-    staff = models.ForeignKey(Account, on_delete=models.CASCADE, verbose_name='Staff ID', blank=True, null=True)
+    staff = models.ForeignKey(Account, on_delete=models.CASCADE, verbose_name='Staff ID')
     job = models.ForeignKey(Job, on_delete=models.SET_NULL, verbose_name='Job ID', blank=True, null=True)
 
     status = models.ForeignKey(JobStatus, on_delete=models.DO_NOTHING, verbose_name='Status', default="APPLIED")
 
-    check_in = models.DateTimeField(verbose_name='Check-in Time', auto_now=False)
-    check_out = models.DateTimeField(verbose_name='Check-out Time', auto_now=False)
+    check_in = models.DateTimeField(verbose_name='Check-in Time', auto_now=False, blank=True, null=True, default=None)
+    check_out = models.DateTimeField(verbose_name='Check-out Time', auto_now=False, blank=True, null=True, default=None)
 
     is_approved = models.BooleanField(verbose_name='Approved Status', default=False)
 
     class Meta:
         verbose_name = "Staffs for Job"
         verbose_name_plural = "Staffs for Jobs"
+        unique_together = ('staff', 'job',)
 
     def __str__(self):
         return f'{self.staff.name}: {self.status}'

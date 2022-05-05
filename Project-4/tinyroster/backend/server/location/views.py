@@ -17,11 +17,11 @@ class LocationList(APIView):
         except:
             return Response(
                 data = { "message": "no location available" },
-                status = status.HTTP_404_INTERNAL_SERVER_ERROR
+                status = status.HTTP_404_NOT_FOUND
             )
         
 
-class LocationList(APIView):
+class LocationDetails(APIView):
     permission_class = (IsAuthenticated,)
 
     def get(self, request, id):
@@ -47,10 +47,13 @@ class CreateLocation(APIView):
                 data = { "message": "permission denied" },
                 status = status.HTTP_401_UNAUTHORIZED
             )
-        
-        new_location = srlzr.LocationSerializer(data = request.data)
+        # data = request.data
+        # data['manager'] = Account.objects.get(id=request.data.get("manager", ""))
+        new_location = srlzr.CreateLocationSerializer(data = request.data)
         if new_location.is_valid():
+            print(new_location.validated_data)
             new_location.save()
+            # new_location.save(mananger=request.data.manager)
             return Response(
                 data = new_location.data,
                 status = status.HTTP_201_CREATED
@@ -80,7 +83,7 @@ class UpdateLocation(APIView):
                 status = status.HTTP_404_NOT_FOUND
             )
         
-        updated_location = srlzr.LocationSerializer(instance=location, data=request.data, partial=True)
+        updated_location = srlzr.CreateLocationSerializer(instance=location, data=request.data, partial=True)
         if not updated_location.is_valid():
             return Response(
                 data = { "message": "invalid location details" },
@@ -90,7 +93,7 @@ class UpdateLocation(APIView):
         return Response(data = updated_location.data, status = status.HTTP_202_ACCEPTED)
         
     
-class UpdateLocation(APIView):
+class DeleteLocation(APIView):
     permission_class = (IsAdminUser,)
     
     def delete(self, request, id):

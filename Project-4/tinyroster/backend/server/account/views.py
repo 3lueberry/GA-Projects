@@ -64,7 +64,7 @@ class Login(APIView):
 
 
 class Logout(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def get(self, request):
         try:
@@ -152,7 +152,7 @@ class Create(APIView):
                 status = status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-        user.is_staff = request.data.get("is_staff", False)
+        user.is_staff = user.type.is_manager or user.type.is_payroll or user.type.is_admin
         user.is_active = password != ""
         user.save()
 

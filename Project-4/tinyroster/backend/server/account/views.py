@@ -71,19 +71,19 @@ class Logout(APIView):
             token = RefreshToken(request.data.get("refresh", ""))
             token.blacklist()
 
-            tokens = OutstandingToken.objects.filter(user_id=request.user.id)
-            for token in tokens:
-                try:
-                    print(token.id)
-                    BlacklistedToken.objects.get(token_id=token.id)
-                except:
-                    print(token.token)
-                    blacklist = RefreshToken(str(token.token))
-                    print(blacklist)
-                    blacklist.blacklist()
-                    continue
+            # tokens = OutstandingToken.objects.filter(user_id=request.user.id)
+            # for token in tokens:
+            #     try:
+            #         print(token.id)
+            #         BlacklistedToken.objects.get(token_id=token.id)
+            #     except:
+            #         print(token.token)
+            #         blacklist = RefreshToken(str(token.token))
+            #         print(blacklist)
+            #         blacklist.blacklist()
+            #         continue
 
-            # logout(request)
+            logout(request)
             return Response(
                 data={
                     "access": None,

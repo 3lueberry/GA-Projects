@@ -8,7 +8,7 @@ import { loaderActions } from "../stores/loader";
 import useGetAPI from "../hooks/useGetAPI";
 import ListItem from "../components/ListItem";
 
-const AccountListView = () => {
+const AccountListView = ({ navigation: { navigate } }) => {
   console.log("This is AccountListView");
 
   const dispatchStore = useDispatch();
@@ -51,6 +51,7 @@ const AccountListView = () => {
         refreshing={isLoading}
         renderItem={({ item }) => (
           <ListItem
+            onPress={() => navigate("Account Details", { user: item })}
             title={item.name}
             subtitle={item.contact}
             imgSrc={item.img ? { url: item.img } : require("../../assets/icon.png")}

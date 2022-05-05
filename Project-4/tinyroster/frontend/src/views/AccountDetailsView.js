@@ -6,7 +6,7 @@ import { loaderActions } from "../stores/loader";
 
 import useAuth from "../hooks/useAuth";
 
-const AccountDetailsView = () => {
+const AccountDetailsView = ({ navigation: { navigate }, route }) => {
   console.log("This is AccountDetailsView");
 
   const dispatchStore = useDispatch();
@@ -33,9 +33,7 @@ const AccountDetailsView = () => {
     <View style={styles.container}>
       <Text style={styles.textStyle}>Hello World!</Text>
       {token.access && <Text>Welcome, {token.user.name}!</Text>}
-      <Text>{process.env.SERVER_KEY}</Text>
-      <Text>{process.env.SERVER_DOMAIN}</Text>
-      <Text>{process.env.SERVER_PROJECT_ID}</Text>
+      <Text>{route.params.user.name}</Text>
     </View>
   );
 };

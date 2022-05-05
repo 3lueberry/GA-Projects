@@ -50,13 +50,7 @@ const ListItem = ({ children, title, subtitle, onPress, style, imgSrc }) => {
       activeOpacity={0}
       enableTrackpadTwoFingerGesture={true}
     >
-      <TouchableOpacity
-        delayPressIn={50}
-        onPress={() => {
-          console.log("pressed");
-        }}
-        style={style}
-      >
+      <TouchableOpacity delayPressIn={50} onPress={onPress} style={style}>
         <View style={styles.container}>
           <Image source={imgSrc} style={styles.iconStyle} />
           <View style={styles.textViewStyle}>

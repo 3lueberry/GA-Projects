@@ -31,5 +31,13 @@ export default () => {
     } else return false;
   };
 
-  return { checkAuth, getRefresh };
+  const logout = async () => {
+    const res = await django.post(`/logout/`, { refresh: token.refresh }).catch((err) => {});
+    if (res) {
+      dispatchStore(authActions.clearAuth());
+      return true;
+    } else return false;
+  };
+
+  return { checkAuth, getRefresh, logout };
 };

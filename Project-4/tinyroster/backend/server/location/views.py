@@ -11,7 +11,10 @@ class LocationList(APIView):
 
     def get(self, request):
         try:
-            locations = Location.objects.all()
+            if request.user.type.is_manager:
+                locations = Location.objects.filter(manager=request.user.id)
+            else:
+                locations = Location.objects.all()
             serialized_locations = srlzr.LocationSerializer(locations, many=True)
             return Response(data = serialized_locations.data, status = status.HTTP_200_OK)
         except:

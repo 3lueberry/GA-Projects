@@ -26,40 +26,42 @@ const AccountListView = ({ navigation: { navigate } }) => {
   );
 
   useEffect(() => {
-    getAPI("/account/");
+    getAPI("/jobs/");
   }, []);
 
   useEffect(() => {
-    const accounts = [...new Set(response.map(({ type }) => type.type))];
-    setAccountList(
-      accounts.map((acc) => ({
-        title: acc,
-        data: response.filter(({ type }) => type.type === acc),
-      }))
-    );
+    // const accounts = [...new Set(response.map(({ type }) => type.type))];
+    // setAccountList(
+    //   accounts.map((acc) => ({
+    //     title: acc,
+    //     data: response.filter(({ type }) => type.type === acc),
+    //   }))
+    // );
+    if (response.length) console.log(typeof response[0].start_time);
   }, [response]);
 
   return (
     <View style={styles.container}>
       {!response.length && !isLoading && <Text style={styles.textStyle}>Pull to Refresh</Text>}
-      <SectionList
-        sections={accountList}
+      <FlatList
+        // sections={accountList}
+        data={response}
         keyExtractor={({ id }) => id}
         onRefresh={() => {
-          getAPI("/account/");
+          getAPI("/jobs/");
         }}
         refreshing={isLoading}
         renderItem={({ item }) => (
           <ListItem
-            onPress={() => navigate("Job Details", { user: item })}
-            title={item.name}
-            subtitle={item.contact}
-            imgSrc={item.img ? { url: item.img } : require("../../assets/icon.png")}
+            onPress={() => navigate("Job Details", { job: item })}
+            title={item.location.name}
+            subtitle={`Date: ${item.start_time.split("T")[0]}`}
+            // imgSrc={item.img ? { url: item.img } : require("../../assets/icon.png")}
           />
         )}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.secHeader}>{title}</Text>
-        )}
+        // renderSectionHeader={({ section: { title } }) => (
+        //   <Text style={styles.secHeader}>{title}</Text>
+        // )}
       />
     </View>
   );

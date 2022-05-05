@@ -66,7 +66,7 @@ class Login(APIView):
 class Logout(APIView):
     permission_classes = (AllowAny,)
 
-    def get(self, request):
+    def post(self, request):
         try:
             token = RefreshToken(request.data.get("refresh", ""))
             token.blacklist()
@@ -91,7 +91,8 @@ class Logout(APIView):
                 },
                 status=status.HTTP_205_RESET_CONTENT
             )
-        except:
+        except Exception as e:
+            print(e)
             return Response(
                 data = { "message": "something went wrong" },
                 status = status.HTTP_500_INTERNAL_SERVER_ERROR

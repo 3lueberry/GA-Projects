@@ -14,7 +14,7 @@ const AccountListView = ({ navigation: { navigate } }) => {
   const dispatchStore = useDispatch();
   const isLoading = useSelector((state) => state.loader.isLoading);
   const { response, getAPI } = useGetAPI([]);
-  const [accountList, setAccountList] = useState([]);
+  const [jobList, setJobList] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -30,22 +30,21 @@ const AccountListView = ({ navigation: { navigate } }) => {
   }, []);
 
   useEffect(() => {
-    // const accounts = [...new Set(response.map(({ type }) => type.type))];
-    // setAccountList(
-    //   accounts.map((acc) => ({
-    //     title: acc,
-    //     data: response.filter(({ type }) => type.type === acc),
-    //   }))
-    // );
+    setJobList([
+      {
+        title: "",
+        data: response,
+      },
+    ]);
     if (response.length) console.log(typeof response[0].start_time);
   }, [response]);
 
   return (
     <View style={styles.container}>
       {!response.length && !isLoading && <Text style={styles.textStyle}>Pull to Refresh</Text>}
-      <FlatList
-        // sections={accountList}
-        data={response}
+      <SectionList
+        sections={jobList}
+        // data={response}
         keyExtractor={({ id }) => id}
         onRefresh={() => {
           getAPI("/jobs/");

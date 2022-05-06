@@ -32,7 +32,9 @@ export default () => {
   };
 
   const logout = async () => {
-    const res = await django.post(`/logout/`, { refresh: token.refresh }).catch((err) => {});
+    const res = await django.post(`/logout/`, { refresh: token.refresh }).catch((err) => {
+      dispatchStore(authActions.clearAuth());
+    });
     if (res) {
       dispatchStore(authActions.clearAuth());
       return true;

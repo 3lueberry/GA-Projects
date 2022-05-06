@@ -18,6 +18,7 @@ import AccountListView from "../views/AccountListView";
 import AccountDetailsView from "../views/AccountDetailsView";
 import CreateAccountView from "../views/CreateAccountView";
 import JobListView from "../views/JobListView";
+import CreateJobView from "../views/CreateJobView";
 import JobDetailsView from "../views/JobDetailsView";
 import OutletListView from "../views/OutletListView";
 import OutletDetailsView from "../views/OutletDetailsView";
@@ -52,6 +53,11 @@ const JobStack = () => {
       <StackNav.Screen
         name="Job Details"
         component={JobDetailsView}
+        options={{ presentation: "modal" }}
+      />
+      <StackNav.Screen
+        name="Create Job"
+        component={CreateJobView}
         options={{ presentation: "modal" }}
       />
     </StackNav.Navigator>
@@ -186,7 +192,7 @@ const MainNav = () => {
                         size={30}
                         color="#0b60ff"
                         onPress={() => {
-                          navigate("Job Details");
+                          navigate("Create Job");
                         }}
                       />
                     </StyledButton>

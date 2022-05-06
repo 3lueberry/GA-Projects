@@ -26,3 +26,10 @@ class JobUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobUser
         fields = '__all__'
+
+
+class JobUserDetailsSerializer(serializers.ModelSerializer):
+    staff = UserDetailsSerializer(read_only = True)
+    class Meta:
+        model = JobUser
+        fields = '__all__'

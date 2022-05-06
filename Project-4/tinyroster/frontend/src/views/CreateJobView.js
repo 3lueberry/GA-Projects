@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
-import { loaderActions } from "../stores/loader";
-import { Picker } from "@react-native-picker/picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import DatePicker from "react-native-date-picker";
 
 import StyledTextInput from "../components/StyledTextInput";
 import { FontAwesome } from "@expo/vector-icons";
@@ -13,35 +13,32 @@ import StyledButton from "../components/StyledButton";
 const CreateAccountView = ({ navigation: { goBack }, route }) => {
   const dispatchStore = useDispatch();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
-  const [type, setType] = useState("PARTTIMER");
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
+  const [no_staff, setNoStaff] = useState("1");
   const [submit, setSubmit] = useState(null);
   const [validation, setValidation] = useState(false);
-  const usernameRef = useRef();
-  const passwordRef = useRef();
-  const nameRef = useRef();
-  const contactRef = useRef();
+  const noStaffRef = useRef();
 
   const combinedAPI = useCombinedAPI();
 
   const handleSubmit = () => {
     setValidation(true);
-    if (username === "") usernameRef.current.focus();
+    if (no_staff === "") noStaffRef.current.focus();
     else {
-      setSubmit({ username, password, name, contact, type });
+      const start_time = `${startTime.toISOString().split(".")[0]}+08:00`;
+      const end_time = `${endTime.toISOString().split(".")[0]}+08:00`;
+      setSubmit({ start_time, end_time, no_staff });
     }
   };
 
-  useEffect(() => {
-    if (route.params.user) {
-      setName(route.params.user.name);
-      setContact(route.params.user.contact);
-      setType(route.params.user.type.type);
-    }
-  }, []);
+  //   useEffect(() => {
+  //     if (route.params.user) {
+  //       setName(route.params.user.name);
+  //       setContact(route.params.user.contact);
+  //       setType(route.params.user.type.type);
+  //     }
+  //   }, []);
 
   useEffect(() => {
     if (combinedAPI.response) goBack();
@@ -52,7 +49,7 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
     const controller = new AbortController();
     if (submit && validation) {
       setValidation(false);
-      combinedAPI.combinedAPI(`/account/create/`, submit, "put");
+      combinedAPI.combinedAPI(`/jobs/create/`, submit, "put");
     }
     return () => controller.abort();
     //eslint-disable-next-line
@@ -60,101 +57,47 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.textStyle}>Start Date & Time</Text>
+      <DateTimePicker
+        mode={"datetime"}
+        display="spinner"
+        is24Hour={false}
+        value={startTime.toISOString()}
+        onDateChange={setStartTime}
+        textColor="#333"
+        timeZoneOffsetInSeconds={8 * 3600}
+        style={{ width: 400, height: 80, color: "black" }}
+      />
+      <Text style={styles.textStyle}>End Date & Time</Text>
+      <DateTimePicker
+        mode={"datetime"}
+        display="spinner"
+        is24Hour={false}
+        value={endTime.toISOString()}
+        onDateChange={setEndTime}
+        textColor="#333"
+        style={{ width: 400, height: 80 }}
+        timeZoneOffsetInSeconds={8 * 3600}
+      />
       <StyledTextInput
-        value={username}
-        inputRef={usernameRef}
-        placeholder="username"
-        textContentType="username"
-        autoCapitalize="none"
-        autoComplete={false}
-        autoCorrect={false}
-        blurOnSubmit={false}
-        autoFocus={true}
-        editable={!submit}
-        returnKeyType="next"
-        onChangeText={(value) => {
-          setUsername(value.trim());
-        }}
-        onSubmitEditing={(e) => {
-          passwordRef.current.focus();
-        }}
-      >
-        <FontAwesome name="user-circle-o" size={30} color="grey" />
-      </StyledTextInput>
-      {validation && !username && <Text style={styles.warnStyle}>username required.</Text>}
-      <StyledTextInput
-        value={password}
-        inputRef={passwordRef}
-        placeholder="old password"
-        textContentType="password"
-        secureTextEntry={true}
-        autoCapitalize="none"
-        autoComplete={false}
-        autoCorrect={false}
-        selectTextOnFocus={true}
-        blurOnSubmit={false}
-        editable={!submit}
-        returnKeyType="next"
-        onChangeText={(value) => {
-          setPassword(value);
-        }}
-        onSubmitEditing={(e) => {
-          nameRef.current.focus();
-        }}
-      >
-        <FontAwesome name="lock" size={30} color="grey" style={{ paddingLeft: 5 }} />
-      </StyledTextInput>
-      <StyledTextInput
-        value={name}
-        inputRef={nameRef}
-        placeholder="name"
-        textContentType="name"
-        autoCapitalize="words"
-        blurOnSubmit={false}
-        autoFocus={false}
-        editable={!submit}
-        returnKeyType="next"
-        onChangeText={(value) => {
-          setName(value);
-        }}
-        onSubmitEditing={(e) => {
-          contactRef.current.focus();
-        }}
-      >
-        <FontAwesome name="user-circle-o" size={30} color="grey" />
-      </StyledTextInput>
-      <StyledTextInput
-        value={contact}
-        inputRef={contactRef}
-        placeholder="mobile no."
-        textContentType="telephoneNumber"
+        value={no_staff}
+        inputRef={noStaffRef}
+        placeholder="No. of Staffs"
         keyboardType="number-pad"
         blurOnSubmit={false}
         autoFocus={false}
-        editable={!submit}
         maxLength={8}
-        returnKeyType="next"
+        returnKeyType="send"
         onChangeText={(value) => {
-          setContact(value);
+          setNoStaff(value);
         }}
         onSubmitEditing={(e) => {
           contactRef.current.focus();
         }}
       >
-        <FontAwesome name="mobile" size={30} color="grey" style={{ paddingLeft: 10 }} />
+        <FontAwesome name="users" size={30} color="grey" style={{ paddingLeft: 0 }} />
       </StyledTextInput>
-
-      <Picker
-        selectedValue={type}
-        style={{ height: 0, width: 300, top: -70 }}
-        onValueChange={(itemValue, itemIndex) => setType(itemValue)}
-        mode={Picker.MODE_DROPDOWN}
-      >
-        <Picker.Item label="Part Timer" value="PARTTIMER" />
-        <Picker.Item label="Manager" value="MANAGER" />
-        <Picker.Item label="HR Payroll" value="PAYROLL" />
-        <Picker.Item label="Admin User" value="ADMIN" />
-      </Picker>
+      {validation && !no_staff && <Text style={styles.warnStyle}>no. of staff required.</Text>}
 
       <StyledButton title="SUBMIT" onPress={handleSubmit} style={styles.btnStyle} />
     </View>
@@ -163,16 +106,17 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
 
 const styles = StyleSheet.create({
   textStyle: {
-    fontSize: 30,
+    textAlign: "left",
+    fontSize: 20,
     color: "#333",
-    fontWeight: "700",
-    marginBottom: 30,
+    fontWeight: "500",
+    marginTop: 30,
+    marginBottom: 10,
   },
 
   btnStyle: {
     width: 200,
     backgroundColor: "#36f",
-    top: 80,
   },
 
   warnStyle: {

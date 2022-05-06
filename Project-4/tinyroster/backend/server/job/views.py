@@ -45,7 +45,7 @@ class JobDetails(APIView):
         else:
             applied = JobUser.objects.filter(staff=request.user.id)
 
-        serialized_applied = srlzr.JobUserSerializer(applied, many=True)
+        serialized_applied = srlzr.JobUserDetailsSerializer(applied, many=True)
 
         data = {'details': serialized_job.data, 'applied': serialized_applied.data }
         return Response(data = data, status = status.HTTP_200_OK)
@@ -185,4 +185,21 @@ class ApplyOrStatusJob(APIView):
             return Response(
                 data = { "message": "unable to apply job or update status" },
                 status = status.HTTP_400_BAD_REQUEST
+            )
+
+
+
+class CheckStatus(APIView):
+    permission_class = (IsAuthenticated,)
+
+    def get(self, request, id, user):
+        try:
+            job_user = JobUser.objects.get(job=id, staff=user)
+            serialized_apply_job = srlzr.JobUserSerializer(job_user)
+            return Response(data = {"status":serialized_apply_job.data['status']}, status = status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response(
+                data = { "status":""},
+                status = status.HTTP_200_OK
             )

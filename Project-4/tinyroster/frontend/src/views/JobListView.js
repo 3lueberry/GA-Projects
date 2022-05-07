@@ -55,6 +55,7 @@ const AccountListView = ({ navigation: { navigate } }) => {
             onPress={() => navigate("Job Details", { job: item })}
             title={item.location.name}
             subtitle={`Date: ${item.start_time.split("T")[0]}`}
+            deleted={item.is_delated}
             // imgSrc={item.img ? { url: item.img } : require("../../assets/icon.png")}
           />
         )}

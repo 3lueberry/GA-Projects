@@ -13,7 +13,7 @@ const HomeView = ({ navigation: { navigate } }) => {
         resizeMode="cover"
         style={styles.imgBackground}
       >
-        <Image style={styles.imgStyle} source={require("../../assets/icon.png")} />
+        <Image style={styles.imgStyle} source={require("../../assets/logo192.png")} />
         {!isLoading && (
           <StyledButton
             title="LOGIN"

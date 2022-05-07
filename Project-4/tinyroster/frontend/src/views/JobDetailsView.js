@@ -21,7 +21,7 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
   const [endTime, setEndTime] = useState("");
   const [status, setStatus] = useState("");
   const [jobList, setJobList] = useState([]);
-
+  const [item, setItem] = useState(null);
   const [staffID, setStaffID] = useState("");
 
   const getAPI = useGetAPI();
@@ -72,6 +72,7 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
         {
           text: "OK",
           onPress: () => {
+            console.log("pressed OK");
             handleOK();
           },
           style: "default",
@@ -79,7 +80,9 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
       ],
       {
         cancelable: true,
-        onDismiss: () => {},
+        onDismiss: () => {
+          console.log("dismissed");
+        },
       }
     );
   };
@@ -103,11 +106,13 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
         break;
 
       case "CHECKED OUT":
-        combinedAPI.combinedAPI(
-          `/jobs/${route.params.job.id}/job-status/`,
-          { staff: staffID, status: "APPROVED" },
-          "post"
-        );
+        combinedAPI
+          .combinedAPI(
+            `/jobs/${route.params.job.id}/job-status/`,
+            { staff: staffID, status: "APPROVED" },
+            "post"
+          )
+          .then(combinedAPI.combinedAPI(`/timesheets/add/`, item, "post"));
         break;
 
       default:
@@ -172,6 +177,7 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
         renderItem={({ item }) => (
           <ListItem
             onPress={() => {
+              setItem({ ...item, staff: item.staff.id });
               setStaffID(item.staff.id);
               setStatus(item.status);
               handleManager();

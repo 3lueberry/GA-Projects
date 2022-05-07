@@ -12,7 +12,6 @@ import StyledButton from "../components/StyledButton";
 
 const CreateAccountView = ({ navigation: { goBack }, route }) => {
   const dispatchStore = useDispatch();
-
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
   const [no_staff, setNoStaff] = useState("1");
@@ -28,6 +27,7 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
     else {
       const start_time = `${startTime.toISOString().split(".")[0]}+08:00`;
       const end_time = `${endTime.toISOString().split(".")[0]}+08:00`;
+      console.log(start_time, end_time);
       setSubmit({ start_time, end_time, no_staff });
     }
   };
@@ -58,27 +58,37 @@ const CreateAccountView = ({ navigation: { goBack }, route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.textStyle}>Start Date & Time</Text>
-      <DateTimePicker
-        mode={"datetime"}
-        display="spinner"
-        is24Hour={false}
-        value={startTime.toISOString()}
-        onDateChange={setStartTime}
-        textColor="#333"
-        timeZoneOffsetInSeconds={8 * 3600}
-        style={{ width: 400, height: 80, color: "black" }}
-      />
+      {startTime && (
+        <DateTimePicker
+          mode={"datetime"}
+          display="spinner"
+          is24Hour={false}
+          value={startTime}
+          onChange={(e, v) => {
+            console.log(v);
+            setStartTime(v);
+          }}
+          textColor="#333"
+          timeZoneOffsetInSeconds={8 * 3600}
+          style={{ width: 400, height: 80, color: "black" }}
+        />
+      )}
       <Text style={styles.textStyle}>End Date & Time</Text>
-      <DateTimePicker
-        mode={"datetime"}
-        display="spinner"
-        is24Hour={false}
-        value={endTime.toISOString()}
-        onDateChange={setEndTime}
-        textColor="#333"
-        style={{ width: 400, height: 80 }}
-        timeZoneOffsetInSeconds={8 * 3600}
-      />
+      {endTime && (
+        <DateTimePicker
+          mode={"datetime"}
+          display="spinner"
+          is24Hour={false}
+          value={endTime}
+          onChange={(e, v) => {
+            console.log(v);
+            setEndTime(v);
+          }}
+          textColor="#333"
+          style={{ width: 400, height: 80 }}
+          timeZoneOffsetInSeconds={8 * 3600}
+        />
+      )}
       <StyledTextInput
         value={no_staff}
         inputRef={noStaffRef}

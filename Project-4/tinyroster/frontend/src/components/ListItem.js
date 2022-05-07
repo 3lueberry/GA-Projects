@@ -5,7 +5,17 @@ import { FontAwesome } from "@expo/vector-icons";
 import StyledButton from "../components/StyledButton";
 import { useSelector, useDispatch } from "react-redux";
 
-const ListItem = ({ children, title, subtitle, onPress, style, imgSrc, onDelete, onEdit }) => {
+const ListItem = ({
+  children,
+  title,
+  subtitle,
+  onPress,
+  style,
+  imgSrc,
+  onDelete,
+  onEdit,
+  deleted,
+}) => {
   const permissions = useSelector((state) => state.auth.permissions);
   const LeftSwipeActions = () => {
     return (
